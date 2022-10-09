@@ -4,6 +4,35 @@
   
     
     <entry>
+      <title>使用idea进行反编译</title>
+      <link href="/2022/10/09/%E4%BD%BF%E7%94%A8idea%E8%BF%9B%E8%A1%8C%E5%8F%8D%E7%BC%96%E8%AF%91/"/>
+      <url>/2022/10/09/%E4%BD%BF%E7%94%A8idea%E8%BF%9B%E8%A1%8C%E5%8F%8D%E7%BC%96%E8%AF%91/</url>
+      
+        <content type="html"><![CDATA[<h1 id="使用idea进行反编译"><a href="#使用idea进行反编译" class="headerlink" title="使用idea进行反编译"></a>使用idea进行反编译</h1><p>首先在idea中安装插件，这里我从marketplace中没找到，然后在installed中发现已经安装好了</p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221009082901210.png" alt="image-20221009082901210"></p><p>找到<code>java-decompiler.jar</code>存放的路径</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">D:\software\IntelliJ IDEA <span class="number">2021.2</span><span class="number">.3</span>\plugins\java-decompiler\lib\java-decompiler.jar</span><br></pre></td></tr></table></figure><p>在需要反编译的jar包同目录下创建一个文件夹，用来存放反编译之后的文件</p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221009083158266.png" alt="image-20221009083158266"></p><p>在改目录下打开cmd(默认的java是java8)</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -cp <span class="string">&quot;D:\software\IntelliJ IDEA 2021.2.3\plugins\java-decompiler\lib\java-decompiler.jar&quot;</span> org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler -dgs=<span class="literal">true</span> app.jar app</span><br></pre></td></tr></table></figure><p>但是会报错</p><blockquote><p>Error: A JNI error has occurred, please check your installation and try again<br>Exception in thread “main” java.lang.UnsupportedClassVersionError: org&#x2F;jetbrains&#x2F;java&#x2F;decompiler&#x2F;main&#x2F;decompiler&#x2F;ConsoleDecompiler has been compiled by a more recent version of the Java Runtime (class file version 55.0), this version of the Java Runtime only recognizes class file versions up to 52.0</p></blockquote><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221009090102729.png" alt="image-20221009090102729"></p><p>这是因为jar包中的class文件的版本和本机的java版本不对应的缘故</p><p><strong>class文件版本跟jdk版本对应关系如下</strong></p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">49</span> = Java <span class="number">5</span></span><br><span class="line"><span class="number">50</span> = Java <span class="number">6</span></span><br><span class="line"><span class="number">51</span> = Java <span class="number">7</span></span><br><span class="line"><span class="number">52</span> = Java <span class="number">8</span></span><br><span class="line"><span class="number">53</span> = Java <span class="number">9</span></span><br><span class="line"><span class="number">54</span> = Java <span class="number">10</span></span><br><span class="line"><span class="number">55</span> = Java <span class="number">11</span></span><br><span class="line"><span class="number">56</span> = Java <span class="number">12</span></span><br><span class="line"><span class="number">57</span> = Java <span class="number">13</span></span><br><span class="line"><span class="number">58</span> = Java <span class="number">14</span></span><br><span class="line"><span class="number">59</span> = Java <span class="number">15</span></span><br><span class="line"><span class="number">60</span> = Java <span class="number">16</span></span><br></pre></td></tr></table></figure><p>所以根据报错，应该采用java11进行反编译</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">D:\environment\java\jdk-<span class="number">11.0</span><span class="number">.2</span>\bin\java.exe -cp <span class="string">&quot;D:\software\IntelliJ IDEA 2021.2.3\plugins\java-decompiler\lib\java-decompiler.jar&quot;</span> org.jetbrains.java.decompiler.main.decompiler.ConsoleDecompiler -dgs=<span class="literal">true</span> app.jar app</span><br></pre></td></tr></table></figure><p>运行成功</p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221009090324831.png" alt="image-20221009090324831"></p><p>最后在指定的文件夹下会出现一个已经编译好的jar包，进行解压查看即可</p><p>其中的源码已经反编译为java文件</p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221009090453102.png" alt="image-20221009090453102"></p><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ol><li><a href="https://blog.csdn.net/q863672107/article/details/124367310">(8条消息) 使用IDEA的反编译插件 反编译jar包&#x2F;class文件&#x2F;修改jar包_cy比昨天更好的博客-CSDN博客_idea反编译jar插件</a></li><li><a href="https://blog.csdn.net/Alexz__/article/details/108689610">(8条消息) 使用IntelliJ IDEA反编译Jar包_Alexz__的博客-CSDN博客</a></li></ol>]]></content>
+      
+      
+      <categories>
+          
+          <category> 杂记 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> java </tag>
+            
+            <tag> idea </tag>
+            
+            <tag> 反编译 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>2022羊城杯-Web</title>
       <link href="/2022/09/04/2022%E7%BE%8A%E5%9F%8E%E6%9D%AF-Web/"/>
       <url>/2022/09/04/2022%E7%BE%8A%E5%9F%8E%E6%9D%AF-Web/</url>
@@ -69,7 +98,7 @@
       
       <categories>
           
-          <category> DASCTF七月赛 </category>
+          <category> 比赛wp </category>
           
       </categories>
       
