@@ -1,42 +1,151 @@
-<!DOCTYPE html>
-<html lang="zh">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="renderer" content="webkit">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <meta name="google-site-verification" content="TZE0rZyIqLl10trYu3BWBWa1Vmz6HFwhb2OcNEK4u-s" />
-     <link rel="shortcut icon" href= /img/favicon.ico >
-    <title>
-        Sk1y&#39;s Blog
-    </title>
-    <meta name="description" content= Sk1y's blog >
-    <meta name="keywords" content= Blog,Hexo,Theme,coder,Sk1y >
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>蓝帽杯2022_Web_网站取证 | Sk1y's Blog</title><meta name="keywords" content="蓝帽杯,2022,fastjson,网站取证"><meta name="author" content="Sk1y"><meta name="copyright" content="Sk1y"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="蓝帽杯——Web&amp;网站取证Ez_gadget&#x2F;json路由下，有个这样的判断 1if (str !&#x3D; null &amp;&amp; Objects.hashCode(str) &#x3D;&#x3D; secret.getKey().hashCode() &amp;&amp; !secret.getKey().equals(str))   这个牵扯到hashcode相同，但是字符串不一样，和md5">
+<meta property="og:type" content="article">
+<meta property="og:title" content="蓝帽杯2022_Web_网站取证">
+<meta property="og:url" content="https://sk1y233.github.io/2022/07/12/%E8%93%9D%E5%B8%BD%E6%9D%AF2022-Web-%E7%BD%91%E7%AB%99%E5%8F%96%E8%AF%81/index.html">
+<meta property="og:site_name" content="Sk1y&#39;s Blog">
+<meta property="og:description" content="蓝帽杯——Web&amp;网站取证Ez_gadget&#x2F;json路由下，有个这样的判断 1if (str !&#x3D; null &amp;&amp; Objects.hashCode(str) &#x3D;&#x3D; secret.getKey().hashCode() &amp;&amp; !secret.getKey().equals(str))   这个牵扯到hashcode相同，但是字符串不一样，和md5">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+<meta property="article:published_time" content="2022-07-12T15:09:52.000Z">
+<meta property="article:modified_time" content="2022-07-12T15:35:03.220Z">
+<meta property="article:author" content="Sk1y">
+<meta property="article:tag" content="蓝帽杯">
+<meta property="article:tag" content="2022">
+<meta property="article:tag" content="fastjson">
+<meta property="article:tag" content="网站取证">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://sk1y233.github.io/2022/07/12/%E8%93%9D%E5%B8%BD%E6%9D%AF2022-Web-%E7%BD%91%E7%AB%99%E5%8F%96%E8%AF%81/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '蓝帽杯2022_Web_网站取证',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-07-12 23:35:03'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
     
-<link rel="stylesheet" href="/libs/highlight/styles/monokai-sublime.css">
-
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
     
-<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
-
-    
-<link rel="stylesheet" href="/css/style.css">
-
-
-<meta name="generator" content="Hexo 6.2.0"></head>
-<body id="bodyx">
-    <div class="hd posts">
-
-    <a href="/index.html"><i class="fa fa-home
- replay-btn" aria-hidden="true"></i></a>
-    <div class="post-title">
-        <p>
-            蓝帽杯2022_Web_网站取证
-        </p>
-        <hr>
-    </div>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%93%9D%E5%B8%BD%E6%9D%AF%E2%80%94%E2%80%94Web-amp-%E7%BD%91%E7%AB%99%E5%8F%96%E8%AF%81"><span class="toc-text">蓝帽杯——Web&amp;网站取证</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Ez-gadget"><span class="toc-text">Ez_gadget</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%96%E8%AF%81"><span class="toc-text">取证</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%AB%99%E5%8F%96%E8%AF%811"><span class="toc-text">网站取证1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%AB%99%E5%8F%96%E8%AF%812"><span class="toc-text">网站取证2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%AB%99%E5%8F%96%E8%AF%813"><span class="toc-text">网站取证3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%AB%99%E5%8F%96%E8%AF%814"><span class="toc-text">网站取证4</span></a></li></ol></li></ol></li></ol>
-    <div class="post-content">
-        <h1 id="蓝帽杯——Web-amp-网站取证"><a href="#蓝帽杯——Web-amp-网站取证" class="headerlink" title="蓝帽杯——Web&amp;网站取证"></a>蓝帽杯——Web&amp;网站取证</h1><h2 id="Ez-gadget"><a href="#Ez-gadget" class="headerlink" title="Ez_gadget"></a>Ez_gadget</h2><p>&#x2F;json路由下，有个这样的判断</p>
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/202207122029920.jpg" onerror="onerror=null;src='https://github.com/Sk1y233/blog-img/blob/main/images/202207121312215.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">12</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">18</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Sk1y's Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">蓝帽杯2022_Web_网站取证</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-07-12T15:09:52.000Z" title="发表于 2022-07-12 23:09:52">2022-07-12</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-07-12T15:35:03.220Z" title="更新于 2022-07-12 23:35:03">2022-07-12</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%AF%94%E8%B5%9Bwp/">比赛wp</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">745</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>3分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="蓝帽杯2022_Web_网站取证"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="post-content" id="article-container"><h1 id="蓝帽杯——Web-amp-网站取证"><a href="#蓝帽杯——Web-amp-网站取证" class="headerlink" title="蓝帽杯——Web&amp;网站取证"></a>蓝帽杯——Web&amp;网站取证</h1><h2 id="Ez-gadget"><a href="#Ez-gadget" class="headerlink" title="Ez_gadget"></a>Ez_gadget</h2><p>&#x2F;json路由下，有个这样的判断</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (str != <span class="literal">null</span> &amp;&amp; Objects.hashCode(str) == secret.getKey().hashCode() &amp;&amp; !secret.getKey().equals(str)) </span><br></pre></td></tr></table></figure>
 
 <p>这个牵扯到hashcode相同，但是字符串不一样，和md5弱碰撞有点像</p>
@@ -87,101 +196,29 @@
 <p>转账部分，转账的金额需要用上面的解密函数进行解密，编号2，3，4，5是对应的人员，这一点对应一下即可</p>
 <p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/202207122306697.png" alt="image-20220712230614304"></p>
 <p>根据这些内容，写脚本算出最终的转账数目即可</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://sk1y233.github.io">Sk1y</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://sk1y233.github.io/2022/07/12/%E8%93%9D%E5%B8%BD%E6%9D%AF2022-Web-%E7%BD%91%E7%AB%99%E5%8F%96%E8%AF%81/">https://sk1y233.github.io/2022/07/12/%E8%93%9D%E5%B8%BD%E6%9D%AF2022-Web-%E7%BD%91%E7%AB%99%E5%8F%96%E8%AF%81/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://sk1y233.github.io" target="_blank">Sk1y's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%93%9D%E5%B8%BD%E6%9D%AF/">蓝帽杯</a><a class="post-meta__tags" href="/tags/2022/">2022</a><a class="post-meta__tags" href="/tags/fastjson/">fastjson</a><a class="post-meta__tags" href="/tags/%E7%BD%91%E7%AB%99%E5%8F%96%E8%AF%81/">网站取证</a></div><div class="post_share"><div class="social-share" data-image="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/07/14/ciscn2022-web-%E4%BC%9A%E8%81%8A%E5%A4%A9%E7%9A%84%E6%9C%BA%E5%99%A8%E4%BA%BA/"><img class="prev-cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="onerror=null;src='https://github.com/Sk1y233/blog-img/blob/main/images/202207121312821.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">ciscn2022-web-会聊天的机器人</div></div></a></div><div class="next-post pull-right"><a href="/2022/07/12/ciscn2022%E5%8D%8E%E4%B8%AD%E8%B5%9B%E5%8C%BAweb%E9%83%A8%E5%88%86wp/"><img class="next-cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="onerror=null;src='https://github.com/Sk1y233/blog-img/blob/main/images/202207121312821.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">ciscn2022华中赛区web部分wp</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2022/07/15/2022%E5%B9%B4%E8%93%9D%E8%B4%9D%E5%9B%BD%E9%99%85%E5%88%9B%E6%96%B0%E5%88%9B%E4%B8%9A%E5%A4%A7%E8%B5%9B%E6%95%B0%E5%AD%97%E6%8A%80%E6%9C%AF-%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E8%B5%9B%E9%81%93%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2%E5%A4%A7%E8%B5%9Bwp/" title="2022年蓝贝国际创新创业大赛数字技术+信息安全领域赛道网络攻防大赛wp"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-07-15</div><div class="title">2022年蓝贝国际创新创业大赛数字技术+信息安全领域赛道网络攻防大赛wp</div></div></a></div><div><a href="/2022/07/19/ImaginaryCTF2022-Web/" title="ImaginaryCTF2022-Web"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-07-19</div><div class="title">ImaginaryCTF2022-Web</div></div></a></div><div><a href="/2022/07/22/BDSecCTF2022-Web/" title="BDSecCTF2022-Web"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-07-22</div><div class="title">BDSecCTF2022-Web</div></div></a></div><div><a href="/2022/08/07/DASCTF2022-07%E8%B5%8B%E8%83%BD%E8%B5%9B%E5%A4%8D%E7%8E%B0/" title="DASCTF2022.07赋能赛复现"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-08-07</div><div class="title">DASCTF2022.07赋能赛复现</div></div></a></div><div><a href="/2022/08/15/SHELLCTF2022%E5%A4%8D%E7%8E%B0/" title="SHELLCTF2022复现"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-08-15</div><div class="title">SHELLCTF2022复现</div></div></a></div><div><a href="/2022/09/04/2022%E7%BE%8A%E5%9F%8E%E6%9D%AF-Web/" title="2022羊城杯-Web"><img class="cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-09-04</div><div class="title">2022羊城杯-Web</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/202207122029920.jpg" onerror="this.onerror=null;this.src='https://github.com/Sk1y233/blog-img/blob/main/images/202207121312215.gif'" alt="avatar"/></div><div class="author-info__name">Sk1y</div><div class="author-info__description">每一个不曾起舞的日子都是对生命的辜负</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">12</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">18</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">3</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Sk1y233"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%93%9D%E5%B8%BD%E6%9D%AF%E2%80%94%E2%80%94Web-amp-%E7%BD%91%E7%AB%99%E5%8F%96%E8%AF%81"><span class="toc-number">1.</span> <span class="toc-text">蓝帽杯——Web&amp;网站取证</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Ez-gadget"><span class="toc-number">1.1.</span> <span class="toc-text">Ez_gadget</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%96%E8%AF%81"><span class="toc-number">1.2.</span> <span class="toc-text">取证</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%AB%99%E5%8F%96%E8%AF%811"><span class="toc-number">1.2.1.</span> <span class="toc-text">网站取证1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%AB%99%E5%8F%96%E8%AF%812"><span class="toc-number">1.2.2.</span> <span class="toc-text">网站取证2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%AB%99%E5%8F%96%E8%AF%813"><span class="toc-number">1.2.3.</span> <span class="toc-text">网站取证3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%AB%99%E5%8F%96%E8%AF%814"><span class="toc-number">1.2.4.</span> <span class="toc-text">网站取证4</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/10/12/java-sec-code-cmdinject-rce/" title="java-sec-code-cmdinject-rce">java-sec-code-cmdinject-rce</a><time datetime="2022-10-12T11:35:05.000Z" title="发表于 2022-10-12 19:35:05">2022-10-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/10/09/%E4%BD%BF%E7%94%A8idea%E8%BF%9B%E8%A1%8C%E5%8F%8D%E7%BC%96%E8%AF%91/" title="使用idea进行反编译">使用idea进行反编译</a><time datetime="2022-10-09T01:08:34.000Z" title="发表于 2022-10-09 09:08:34">2022-10-09</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/09/04/2022%E7%BE%8A%E5%9F%8E%E6%9D%AF-Web/" title="2022羊城杯-Web">2022羊城杯-Web</a><time datetime="2022-09-04T15:05:46.000Z" title="发表于 2022-09-04 23:05:46">2022-09-04</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/08/15/SHELLCTF2022%E5%A4%8D%E7%8E%B0/" title="SHELLCTF2022复现">SHELLCTF2022复现</a><time datetime="2022-08-15T15:50:53.000Z" title="发表于 2022-08-15 23:50:53">2022-08-15</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/08/07/DASCTF2022-07%E8%B5%8B%E8%83%BD%E8%B5%9B%E5%A4%8D%E7%8E%B0/" title="DASCTF2022.07赋能赛复现">DASCTF2022.07赋能赛复现</a><time datetime="2022-08-06T16:59:12.000Z" title="发表于 2022-08-07 00:59:12">2022-08-07</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 By Sk1y</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'MECC3mIv4gyVBwvpqsAnBsX8-gzGzoHsz',
+      appKey: 'KuxLFi0F1Upj5MRy1yo9oAwH',
+      avatar: 'monsterid',
+      serverURLs: '',
+      emojiMaps: "",
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
 
-    </div>
-    
-        <hr class="fhr">
-        <div id="vcomments"></div>
-    
-</div>
-
-
-    <div class="footer" id="footer">
-    <p><h4>Copyright © 2020 | Author: Sk1y | Theme By <a class="theme-author" target="_blank" rel="noopener" href="https://github.com/Xunzhuo/hexo-theme-coder" style="font-size:14px; color: #969696">Coder</a></h4>
-    
-        <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-        <span id="busuanzi_container_site_pv">Page Views: <span id="busuanzi_value_site_pv"></span></span>
-        <span class="post-meta-divider">|</span>
-        <span id="busuanzi_container_site_uv">Unique Visitors: <span id="busuanzi_value_site_uv"></span></span>
-    
-    <label class="el-switch el-switch-blue el-switch-sm" style="vertical-align: sub;">
-        <input type="checkbox" name="switch" id="update_style">
-        <span class="el-switch-style"></span>
-    </label>
-
-    <!--         <script type="text/javascript">
-    var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
-    document.write(unescape("%3Cspan id='cnzz_stat_icon_1278548644'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "v1.cnzz.com/stat.php%3Fid%3D1278548644%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
-    </script> -->
-</p>
-</div>
-
-<input type="hidden" id="web_style" value="black">
-<input type="hidden" id="valine_appid" value="MECC3mIv4gyVBwvpqsAnBsX8-gzGzoHsz">
-<input type="hidden" id="valine_appKey" value="KuxLFi0F1Upj5MRy1yo9oAwH">
-
-<script src="/libs/jquery.min.js"></script>
-
-
-<script src="/libs/highlight/highlight.pack.js"></script>
-
-<script src='//cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
-
-<script src="/js/js.js"></script>
-
-<style type="text/css">
-.v * {
-color: #698fca;
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
 }
-.v .vlist .vcard .vhead .vsys {
-color: #3a3e4a;
-}
-.v .vlist .vcard .vh .vmeta .vat {
-color: #638fd5;
-}
-.v .vlist .vcard .vhead .vnick {
-color: #6ba1ff;
-}
-.v a {
-color: #8696b1;
-}
-.v .vlist .vcard .vhead .vnick:hover {
-color: #669bfc;
-}
-</style>
-    <script type="text/javascript" color="173,174,173" opacity='1' zIndex="-2" count="99" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
-    <!-- <aside id="toc" class="toc-article" >
-      <div class="toc-title">
-         <p>
-            <span> 目录 </span>
-         </p>
-      </div>
-      
-</aside>
 
-<!-- <div style="width:100%;float:left;margin-bottom:25px;">
-    <div id="toc" class="toc-article" >
-       <div class="toc-title">
-          <p>
-             <span> 目录 </span>
-             <a href="#" onclick="javascript:return openct(this);" title="展开">[+]</a>
-          </p>
-       </div>
-       <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%93%9D%E5%B8%BD%E6%9D%AF%E2%80%94%E2%80%94Web-amp-%E7%BD%91%E7%AB%99%E5%8F%96%E8%AF%81"><span class="toc-text">蓝帽杯——Web&amp;网站取证</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Ez-gadget"><span class="toc-text">Ez_gadget</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%96%E8%AF%81"><span class="toc-text">取证</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%AB%99%E5%8F%96%E8%AF%811"><span class="toc-text">网站取证1</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%AB%99%E5%8F%96%E8%AF%812"><span class="toc-text">网站取证2</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%AB%99%E5%8F%96%E8%AF%813"><span class="toc-text">网站取证3</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%BD%91%E7%AB%99%E5%8F%96%E8%AF%814"><span class="toc-text">网站取证4</span></a></li></ol></li></ol></li></ol>
-    </div>
- </div>
- <script>
-    function openct(e){    
-       if (e.innerHTML == '[+]') {
-          $(e).attr('title', '收起').html('[-]');
-          $(".toc-article ol").show();
-       } else {
-          $(e).attr('title', '展开').html('[+]');
-          $(".toc-article ol").hide();
-       }
-       e.blur();
-       return false;
-    }
- </script> --> -->
-</body>
-</html>
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
