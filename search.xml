@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>idea创建maven项目一直显示loading archetype list...解决方法</title>
+      <link href="/2022/10/17/idea%E5%88%9B%E5%BB%BAmaven%E9%A1%B9%E7%9B%AE%E4%B8%80%E7%9B%B4%E6%98%BE%E7%A4%BAloading-archetype-list-%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/"/>
+      <url>/2022/10/17/idea%E5%88%9B%E5%BB%BAmaven%E9%A1%B9%E7%9B%AE%E4%B8%80%E7%9B%B4%E6%98%BE%E7%A4%BAloading-archetype-list-%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</url>
+      
+        <content type="html"><![CDATA[<p>在使用idea创建maven项目时，想使用现有的模板<code>create from archetype</code>，但是一直加载不出来，显示<code>loading archetype list...</code></p><h2 id="解决方法："><a href="#解决方法：" class="headerlink" title="解决方法："></a>解决方法：</h2><p>对新建项目的设置进行修改</p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221017151717260.png" alt="image-20221017151717260"></p><ol><li>第一步</li></ol><p><code>setting--&gt;Build,Execution,Deployment--&gt;Build Tools--&gt;Maven--&gt;importing</code></p><p>修改对应的<code>JDK for importer</code></p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221017151536034.png" alt="image-20221017151536034"></p><ol start="2"><li>第二步</li></ol><p><code>setting--&gt;Build,Execution,Deployment--&gt;Build Tools--&gt;Maven--&gt;Runner</code></p><p>修改对应的jre</p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221017151638418.png" alt="image-20221017151638418"></p><p>注意修改之后保存！！！</p><p>然后再次新建maven项目的时候就会显现出来</p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221017151831776.png" alt="image-20221017151831776"></p><h2 id="参考链接："><a href="#参考链接：" class="headerlink" title="参考链接："></a>参考链接：</h2><p><a href="https://blog.csdn.net/pk694046220/article/details/80870313">(9条消息) Idea loading archetype list…_彭珂个人网的博客-CSDN博客</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 杂记 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> java </tag>
+            
+            <tag> idea </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>java-sec-code-cmdinject-rce</title>
       <link href="/2022/10/12/java-sec-code-cmdinject-rce/"/>
       <url>/2022/10/12/java-sec-code-cmdinject-rce/</url>
