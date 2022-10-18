@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Sk1y&#39;s Blog</title>
+  <icon>https://sk1y233.github.io/icon.png</icon>
+  
+  <link href="https://sk1y233.github.io/atom.xml" rel="self"/>
+  
+  <link href="https://sk1y233.github.io/"/>
+  <updated>2022-10-18T11:48:44.612Z</updated>
+  <id>https://sk1y233.github.io/</id>
+  
+  <author>
+    <name>Sk1y</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>ofcms1.1.4 内容管理系统代码审计</title>
+    <link href="https://sk1y233.github.io/2022/10/18/ofcms1-1-4-%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    <id>https://sk1y233.github.io/2022/10/18/ofcms1-1-4-%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/</id>
+    <published>2022-10-18T11:43:57.000Z</published>
+    <updated>2022-10-18T11:48:44.612Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;环境配置&quot;&gt;&lt;a href=&quot;#环境配置&quot; class=&quot;headerlink&quot; title=&quot;环境配置&quot;&gt;&lt;/a&gt;环境配置&lt;/h2&gt;&lt;p&gt;环境配置保姆级教程&lt;/p&gt;
+&lt;figure class=&quot;highlight</summary>
+        
+      
+    
+    
+    
+    <category term="Java代码审计" scheme="https://sk1y233.github.io/categories/Java%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    
+    
+    <category term="ofcms" scheme="https://sk1y233.github.io/tags/ofcms/"/>
+    
+    <category term="代码审计" scheme="https://sk1y233.github.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>2022bytectf</title>
+    <link href="https://sk1y233.github.io/2022/10/18/2022bytectf/"/>
+    <id>https://sk1y233.github.io/2022/10/18/2022bytectf/</id>
+    <published>2022-10-18T00:04:01.000Z</published>
+    <updated>2022-10-18T00:05:10.835Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;easy-groovy&quot;&gt;&lt;a href=&quot;#easy-groovy&quot; class=&quot;headerlink&quot; title=&quot;easy_groovy&quot;&gt;&lt;/a&gt;easy_groovy&lt;/h2&gt;&lt;figure class=&quot;highlight</summary>
+        
+      
+    
+    
+    
+    <category term="比赛wp" scheme="https://sk1y233.github.io/categories/%E6%AF%94%E8%B5%9Bwp/"/>
+    
+    
+    <category term="2022" scheme="https://sk1y233.github.io/tags/2022/"/>
+    
+    <category term="bytectf" scheme="https://sk1y233.github.io/tags/bytectf/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>idea创建maven项目一直显示loading archetype list...解决方法</title>
+    <link href="https://sk1y233.github.io/2022/10/17/idea%E5%88%9B%E5%BB%BAmaven%E9%A1%B9%E7%9B%AE%E4%B8%80%E7%9B%B4%E6%98%BE%E7%A4%BAloading-archetype-list-%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/"/>
+    <id>https://sk1y233.github.io/2022/10/17/idea%E5%88%9B%E5%BB%BAmaven%E9%A1%B9%E7%9B%AE%E4%B8%80%E7%9B%B4%E6%98%BE%E7%A4%BAloading-archetype-list-%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</id>
+    <published>2022-10-17T07:11:01.000Z</published>
+    <updated>2022-10-17T07:21:04.848Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;在使用idea创建maven项目时，想使用现有的模板&lt;code&gt;create from archetype&lt;/code&gt;，但是一直加载不出来，显示&lt;code&gt;loading archetype list...&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id=&quot;解决方法：&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="杂记" scheme="https://sk1y233.github.io/categories/%E6%9D%82%E8%AE%B0/"/>
+    
+    
+    <category term="java" scheme="https://sk1y233.github.io/tags/java/"/>
+    
+    <category term="idea" scheme="https://sk1y233.github.io/tags/idea/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>java-sec-code-cmdinject-rce</title>
+    <link href="https://sk1y233.github.io/2022/10/12/java-sec-code-cmdinject-rce/"/>
+    <id>https://sk1y233.github.io/2022/10/12/java-sec-code-cmdinject-rce/</id>
+    <published>2022-10-12T11:35:05.000Z</published>
+    <updated>2022-10-12T12:46:13.769Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;java-sec-code&quot;&gt;&lt;a href=&quot;#java-sec-code&quot; class=&quot;headerlink&quot; title=&quot;java-sec-code&quot;&gt;&lt;/a&gt;java-sec-code&lt;/h1&gt;&lt;p&gt;[toc]&lt;/p&gt;
+&lt;h2</summary>
+        
+      
+    
+    
+    
+    <category term="java" scheme="https://sk1y233.github.io/categories/java/"/>
+    
+    
+    <category term="java-sec-code" scheme="https://sk1y233.github.io/tags/java-sec-code/"/>
+    
+    <category term="cmdinject" scheme="https://sk1y233.github.io/tags/cmdinject/"/>
+    
+    <category term="rce" scheme="https://sk1y233.github.io/tags/rce/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>使用idea进行反编译</title>
+    <link href="https://sk1y233.github.io/2022/10/09/%E4%BD%BF%E7%94%A8idea%E8%BF%9B%E8%A1%8C%E5%8F%8D%E7%BC%96%E8%AF%91/"/>
+    <id>https://sk1y233.github.io/2022/10/09/%E4%BD%BF%E7%94%A8idea%E8%BF%9B%E8%A1%8C%E5%8F%8D%E7%BC%96%E8%AF%91/</id>
+    <published>2022-10-09T01:08:34.000Z</published>
+    <updated>2022-10-09T01:20:21.170Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;使用idea进行反编译&quot;&gt;&lt;a href=&quot;#使用idea进行反编译&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="杂记" scheme="https://sk1y233.github.io/categories/%E6%9D%82%E8%AE%B0/"/>
+    
+    
+    <category term="java" scheme="https://sk1y233.github.io/tags/java/"/>
+    
+    <category term="idea" scheme="https://sk1y233.github.io/tags/idea/"/>
+    
+    <category term="反编译" scheme="https://sk1y233.github.io/tags/%E5%8F%8D%E7%BC%96%E8%AF%91/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>2022羊城杯-Web</title>
+    <link href="https://sk1y233.github.io/2022/09/04/2022%E7%BE%8A%E5%9F%8E%E6%9D%AF-Web/"/>
+    <id>https://sk1y233.github.io/2022/09/04/2022%E7%BE%8A%E5%9F%8E%E6%9D%AF-Web/</id>
+    <published>2022-09-04T15:05:46.000Z</published>
+    <updated>2022-09-04T15:09:33.322Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;羊城杯&quot;&gt;&lt;a href=&quot;#羊城杯&quot; class=&quot;headerlink&quot; title=&quot;羊城杯&quot;&gt;&lt;/a&gt;羊城杯&lt;/h1&gt;&lt;p&gt;[toc]&lt;/p&gt;
+&lt;h2 id=&quot;签到&quot;&gt;&lt;a href=&quot;#签到&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="比赛wp" scheme="https://sk1y233.github.io/categories/%E6%AF%94%E8%B5%9Bwp/"/>
+    
+    
+    <category term="Web" scheme="https://sk1y233.github.io/tags/Web/"/>
+    
+    <category term="2022" scheme="https://sk1y233.github.io/tags/2022/"/>
+    
+    <category term="羊城杯" scheme="https://sk1y233.github.io/tags/%E7%BE%8A%E5%9F%8E%E6%9D%AF/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>SHELLCTF2022复现</title>
+    <link href="https://sk1y233.github.io/2022/08/15/SHELLCTF2022%E5%A4%8D%E7%8E%B0/"/>
+    <id>https://sk1y233.github.io/2022/08/15/SHELLCTF2022%E5%A4%8D%E7%8E%B0/</id>
+    <published>2022-08-15T15:50:53.000Z</published>
+    <updated>2022-08-15T15:53:59.385Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;SHELLCTF2022复现&quot;&gt;&lt;a href=&quot;#SHELLCTF2022复现&quot; class=&quot;headerlink&quot; title=&quot;SHELLCTF2022复现&quot;&gt;&lt;/a&gt;SHELLCTF2022复现&lt;/h1&gt;&lt;h2 id=&quot;Choosy&quot;&gt;&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="比赛wp" scheme="https://sk1y233.github.io/categories/%E6%AF%94%E8%B5%9Bwp/"/>
+    
+    
+    <category term="2022" scheme="https://sk1y233.github.io/tags/2022/"/>
+    
+    <category term="SHELLCTF" scheme="https://sk1y233.github.io/tags/SHELLCTF/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>DASCTF2022.07赋能赛复现</title>
+    <link href="https://sk1y233.github.io/2022/08/07/DASCTF2022-07%E8%B5%8B%E8%83%BD%E8%B5%9B%E5%A4%8D%E7%8E%B0/"/>
+    <id>https://sk1y233.github.io/2022/08/07/DASCTF2022-07%E8%B5%8B%E8%83%BD%E8%B5%9B%E5%A4%8D%E7%8E%B0/</id>
+    <published>2022-08-06T16:59:12.000Z</published>
+    <updated>2022-10-09T01:19:44.350Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;DASCTF2022-07赋能赛复现&quot;&gt;&lt;a href=&quot;#DASCTF2022-07赋能赛复现&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="比赛wp" scheme="https://sk1y233.github.io/categories/%E6%AF%94%E8%B5%9Bwp/"/>
+    
+    
+    <category term="2022" scheme="https://sk1y233.github.io/tags/2022/"/>
+    
+    <category term="DASCTF七月赛" scheme="https://sk1y233.github.io/tags/DASCTF%E4%B8%83%E6%9C%88%E8%B5%9B/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>BDSecCTF2022-Web</title>
+    <link href="https://sk1y233.github.io/2022/07/22/BDSecCTF2022-Web/"/>
+    <id>https://sk1y233.github.io/2022/07/22/BDSecCTF2022-Web/</id>
+    <published>2022-07-22T00:00:07.000Z</published>
+    <updated>2022-08-25T01:36:06.963Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;BDSecCTF2022-Web&quot;&gt;&lt;a href=&quot;#BDSecCTF2022-Web&quot; class=&quot;headerlink&quot; title=&quot;BDSecCTF2022-Web&quot;&gt;&lt;/a&gt;BDSecCTF2022-Web&lt;/h1&gt;&lt;p&gt;[toc]&lt;/p&gt;
+&lt;h2</summary>
+        
+      
+    
+    
+    
+    <category term="比赛wp" scheme="https://sk1y233.github.io/categories/%E6%AF%94%E8%B5%9Bwp/"/>
+    
+    
+    <category term="2022" scheme="https://sk1y233.github.io/tags/2022/"/>
+    
+    <category term="BDSecCTF" scheme="https://sk1y233.github.io/tags/BDSecCTF/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ImaginaryCTF2022-Web</title>
+    <link href="https://sk1y233.github.io/2022/07/19/ImaginaryCTF2022-Web/"/>
+    <id>https://sk1y233.github.io/2022/07/19/ImaginaryCTF2022-Web/</id>
+    <published>2022-07-19T14:47:48.000Z</published>
+    <updated>2022-07-19T14:57:15.440Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;ImaginaryCTF2022&quot;&gt;&lt;a href=&quot;#ImaginaryCTF2022&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="比赛wp" scheme="https://sk1y233.github.io/categories/%E6%AF%94%E8%B5%9Bwp/"/>
+    
+    
+    <category term="2022" scheme="https://sk1y233.github.io/tags/2022/"/>
+    
+    <category term="ImaginaryCTF" scheme="https://sk1y233.github.io/tags/ImaginaryCTF/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>2022年蓝贝国际创新创业大赛数字技术+信息安全领域赛道网络攻防大赛wp</title>
+    <link href="https://sk1y233.github.io/2022/07/15/2022%E5%B9%B4%E8%93%9D%E8%B4%9D%E5%9B%BD%E9%99%85%E5%88%9B%E6%96%B0%E5%88%9B%E4%B8%9A%E5%A4%A7%E8%B5%9B%E6%95%B0%E5%AD%97%E6%8A%80%E6%9C%AF-%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E8%B5%9B%E9%81%93%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2%E5%A4%A7%E8%B5%9Bwp/"/>
+    <id>https://sk1y233.github.io/2022/07/15/2022%E5%B9%B4%E8%93%9D%E8%B4%9D%E5%9B%BD%E9%99%85%E5%88%9B%E6%96%B0%E5%88%9B%E4%B8%9A%E5%A4%A7%E8%B5%9B%E6%95%B0%E5%AD%97%E6%8A%80%E6%9C%AF-%E4%BF%A1%E6%81%AF%E5%AE%89%E5%85%A8%E9%A2%86%E5%9F%9F%E8%B5%9B%E9%81%93%E7%BD%91%E7%BB%9C%E6%94%BB%E9%98%B2%E5%A4%A7%E8%B5%9Bwp/</id>
+    <published>2022-07-15T15:49:36.000Z</published>
+    <updated>2022-07-19T14:57:29.186Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;2022年蓝贝国际创新创业大赛“数字技术-信息安全领域赛道网络攻防大赛”wp&quot;&gt;&lt;a href=&quot;#2022年蓝贝国际创新创业大赛“数字技术-信息安全领域赛道网络攻防大赛”wp&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="比赛wp" scheme="https://sk1y233.github.io/categories/%E6%AF%94%E8%B5%9Bwp/"/>
+    
+    
+    <category term="Web" scheme="https://sk1y233.github.io/tags/Web/"/>
+    
+    <category term="2022" scheme="https://sk1y233.github.io/tags/2022/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ciscn2022-web-会聊天的机器人</title>
+    <link href="https://sk1y233.github.io/2022/07/14/ciscn2022-web-%E4%BC%9A%E8%81%8A%E5%A4%A9%E7%9A%84%E6%9C%BA%E5%99%A8%E4%BA%BA/"/>
+    <id>https://sk1y233.github.io/2022/07/14/ciscn2022-web-%E4%BC%9A%E8%81%8A%E5%A4%A9%E7%9A%84%E6%9C%BA%E5%99%A8%E4%BA%BA/</id>
+    <published>2022-07-14T13:34:05.000Z</published>
+    <updated>2022-07-14T13:35:14.748Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;CISCN2022-华东北-会聊天的机器人&quot;&gt;&lt;a href=&quot;#CISCN2022-华东北-会聊天的机器人&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    
+    <category term="ciscn2022" scheme="https://sk1y233.github.io/tags/ciscn2022/"/>
+    
+    <category term="web" scheme="https://sk1y233.github.io/tags/web/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>蓝帽杯2022_Web_网站取证</title>
+    <link href="https://sk1y233.github.io/2022/07/12/%E8%93%9D%E5%B8%BD%E6%9D%AF2022-Web-%E7%BD%91%E7%AB%99%E5%8F%96%E8%AF%81/"/>
+    <id>https://sk1y233.github.io/2022/07/12/%E8%93%9D%E5%B8%BD%E6%9D%AF2022-Web-%E7%BD%91%E7%AB%99%E5%8F%96%E8%AF%81/</id>
+    <published>2022-07-12T15:09:52.000Z</published>
+    <updated>2022-07-12T15:35:03.220Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;蓝帽杯——Web-amp-网站取证&quot;&gt;&lt;a href=&quot;#蓝帽杯——Web-amp-网站取证&quot; class=&quot;headerlink&quot; title=&quot;蓝帽杯——Web&amp;amp;网站取证&quot;&gt;&lt;/a&gt;蓝帽杯——Web&amp;amp;网站取证&lt;/h1&gt;&lt;h2</summary>
+        
+      
+    
+    
+    
+    <category term="比赛wp" scheme="https://sk1y233.github.io/categories/%E6%AF%94%E8%B5%9Bwp/"/>
+    
+    
+    <category term="蓝帽杯" scheme="https://sk1y233.github.io/tags/%E8%93%9D%E5%B8%BD%E6%9D%AF/"/>
+    
+    <category term="2022" scheme="https://sk1y233.github.io/tags/2022/"/>
+    
+    <category term="fastjson" scheme="https://sk1y233.github.io/tags/fastjson/"/>
+    
+    <category term="网站取证" scheme="https://sk1y233.github.io/tags/%E7%BD%91%E7%AB%99%E5%8F%96%E8%AF%81/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>ciscn2022华中赛区web部分wp</title>
+    <link href="https://sk1y233.github.io/2022/07/12/ciscn2022%E5%8D%8E%E4%B8%AD%E8%B5%9B%E5%8C%BAweb%E9%83%A8%E5%88%86wp/"/>
+    <id>https://sk1y233.github.io/2022/07/12/ciscn2022%E5%8D%8E%E4%B8%AD%E8%B5%9B%E5%8C%BAweb%E9%83%A8%E5%88%86wp/</id>
+    <published>2022-07-12T13:37:17.000Z</published>
+    <updated>2022-07-12T15:35:11.229Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;ciscn2022华中分区web部分wp&quot;&gt;&lt;a href=&quot;#ciscn2022华中分区web部分wp&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="比赛wp" scheme="https://sk1y233.github.io/categories/%E6%AF%94%E8%B5%9Bwp/"/>
+    
+    
+    <category term="ciscn2022" scheme="https://sk1y233.github.io/tags/ciscn2022/"/>
+    
+    <category term="Web" scheme="https://sk1y233.github.io/tags/Web/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Hello World</title>
+    <link href="https://sk1y233.github.io/2022/07/11/hello-world/"/>
+    <id>https://sk1y233.github.io/2022/07/11/hello-world/</id>
+    <published>2022-07-11T14:48:12.180Z</published>
+    <updated>2022-07-11T14:48:12.180Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;Welcome to &lt;a href=&quot;https://hexo.io/&quot;&gt;Hexo&lt;/a&gt;! This is your very first post. Check &lt;a href=&quot;https://hexo.io/docs/&quot;&gt;documentation&lt;/a&gt;</summary>
+        
+      
+    
+    
+    
+    
+  </entry>
+  
+</feed>
