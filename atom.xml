@@ -6,7 +6,7 @@
   <link href="https://sk1y233.github.io/atom.xml" rel="self"/>
   
   <link href="https://sk1y233.github.io/"/>
-  <updated>2022-10-18T11:48:44.612Z</updated>
+  <updated>2022-10-24T02:02:35.404Z</updated>
   <id>https://sk1y233.github.io/</id>
   
   <author>
@@ -17,11 +17,36 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>Javassist动态编程</title>
+    <link href="https://sk1y233.github.io/2022/10/24/Javassist%E5%8A%A8%E6%80%81%E7%BC%96%E7%A8%8B/"/>
+    <id>https://sk1y233.github.io/2022/10/24/Javassist%E5%8A%A8%E6%80%81%E7%BC%96%E7%A8%8B/</id>
+    <published>2022-10-24T01:58:12.000Z</published>
+    <updated>2022-10-24T02:02:35.404Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;javassist介绍&quot;&gt;&lt;a href=&quot;#javassist介绍&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="java安全" scheme="https://sk1y233.github.io/categories/java%E5%AE%89%E5%85%A8/"/>
+    
+    
+    <category term="javassist" scheme="https://sk1y233.github.io/tags/javassist/"/>
+    
+  </entry>
+  
+  <entry>
     <title>ofcms1.1.4 内容管理系统代码审计</title>
     <link href="https://sk1y233.github.io/2022/10/18/ofcms1-1-4-%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     <id>https://sk1y233.github.io/2022/10/18/ofcms1-1-4-%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/</id>
     <published>2022-10-18T11:43:57.000Z</published>
-    <updated>2022-10-18T11:48:44.612Z</updated>
+    <updated>2022-10-24T02:01:53.007Z</updated>
     
     
       
@@ -35,7 +60,7 @@
     
     
     
-    <category term="Java代码审计" scheme="https://sk1y233.github.io/categories/Java%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    <category term="Java代码审计,java安全" scheme="https://sk1y233.github.io/categories/Java%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-java%E5%AE%89%E5%85%A8/"/>
     
     
     <category term="ofcms" scheme="https://sk1y233.github.io/tags/ofcms/"/>
@@ -104,7 +129,7 @@
     <link href="https://sk1y233.github.io/2022/10/12/java-sec-code-cmdinject-rce/"/>
     <id>https://sk1y233.github.io/2022/10/12/java-sec-code-cmdinject-rce/</id>
     <published>2022-10-12T11:35:05.000Z</published>
-    <updated>2022-10-12T12:46:13.769Z</updated>
+    <updated>2022-10-24T02:01:33.474Z</updated>
     
     
       
@@ -118,7 +143,7 @@
     
     
     
-    <category term="java" scheme="https://sk1y233.github.io/categories/java/"/>
+    <category term="java安全" scheme="https://sk1y233.github.io/categories/java%E5%AE%89%E5%85%A8/"/>
     
     
     <category term="java-sec-code" scheme="https://sk1y233.github.io/tags/java-sec-code/"/>
