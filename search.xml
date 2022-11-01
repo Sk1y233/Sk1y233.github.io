@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>readFileSync浅分析</title>
+      <link href="/2022/11/01/readFileSync%E6%B5%85%E5%88%86%E6%9E%90/"/>
+      <url>/2022/11/01/readFileSync%E6%B5%85%E5%88%86%E6%9E%90/</url>
+      
+        <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>前言：在刚过去的祥云杯中，web类型题目有一个rustwaf的题目（corCTF 2022 simplewaf 改编而来），其中有个关于readFileSync的trick，这里分析一下</p><h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><p>看下官方文档对readFileSync的解释，注意看，path可以是字符串，Buffer类对象，URL类对象等等</p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221101105307823.png" alt="image-20221101105307823"></p><p>调用链</p><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">fs.readFileSync</span><br><span class="line">--&gt;fs.openSync(lib/fs.js)</span><br><span class="line">    --&gt; getValidatedPath(lib/internal/fs/utils.js) </span><br><span class="line">    --&gt;toPathIfFileURL(lib/internal/url.js)</span><br><span class="line">    --&gt;fileURLToPath(/lib/internal/url.js)</span><br><span class="line">    --&gt;getPathFromURLPosix(lib/internal/url.js)</span><br></pre></td></tr></table></figure><p><a href="https://github.com/nodejs/node/blob/v18.x/lib/fs.js#L464">node&#x2F;fs.js at v18.x · nodejs&#x2F;node (github.com)</a></p><p>lib&#x2F;fs.js，查看readFileSync的源码，其调用了fs.openSync，并将path和options作为参数传入</p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221101112915789.png" alt="image-20221101112915789"></p><p>跟进fs.openSync（lib&#x2F;fs.js），其调用了getValidatedPath函数，将path作为参数传入</p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221101113136386.png" alt="image-20221101113136386"></p><p>跟进getValidatedPath(&#x2F;lib&#x2F;internal&#x2F;fs&#x2F;utils.js)，根据函数名，也就是获取路径的意思</p><p>这里调用了toPathIfFileURL，将path传入作为参数，字面意思（如果是URL实例，就转换为路径）<img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221101114820054.png" alt="image-20221101114820054"></p><p>跟进toPathIfFileURL(lib&#x2F;internal&#x2F;url.js)，如果不是URL实例，就直接返回<code>fileURLOrPath</code>；如果是URL实例，就返回<code>fileURLToPath(fileURLOrPath);</code></p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221101114951320.png" alt="image-20221101114951320"></p><p>我们跟进<code>isURLInstance(/lib/internal/url.js)</code>看下是怎么判断是否为URL实例的</p><p>我们发现判断是否为URL实例的依据就是<code>是否含有href和origin属性</code>，所以我们添加这两个属性之后就可以伪造URL实例</p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221101145324153.png" alt="image-20221101145324153"></p><p>而判断URL实例成功后，则返回<code>fileURLToPath(fileURLOrPath)</code>，跟进(&#x2F;lib&#x2F;internal&#x2F;url.js)</p><p>发现需要path.protocol为<code>file:</code>，然后根据操作系统，调用对应的函数</p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221101151618908.png" alt="image-20221101151618908"></p><p>我们看下getPathFromURLPosix(url)</p><p>hostname属性需要为空，然后对pathname进行url解码</p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221101154255347.png" alt="image-20221101154255347"></p><h2 id="调试分析"><a href="#调试分析" class="headerlink" title="调试分析"></a>调试分析</h2><p>为什么一开始没有源码分析呢？</p><p>因为刚开始从readFileSync函数下断点，进不去函数里面，后来发现了一篇文章<a href="https://cloud.tencent.com/developer/article/2123023">corCtf2022一道有意思的node题 - 腾讯云开发者社区-腾讯云 (tencent.com)</a>，配了下环境，就可以了，就是<code>把skipFiles中node_internals给注释掉</code></p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221101155151938.png" alt="image-20221101155151938"></p><p>前面的跳过，主要看最后的</p><p>for循环用于检验传入的URL实例中的属性 <code>pathname</code> 中是否包含 url编码后的 <code>/</code> ，若包含则抛出一个异常</p><p>在1410行，将传入的URL实例中 <code>pathname</code> 中的值进行url解码并返回</p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221101155717217.png" alt="image-20221101155717217"></p><p>这也就是最终fs.openSync函数中最终获取的path</p><p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221101160131202.png" alt="image-20221101160131202"></p><h2 id="payload"><a href="#payload" class="headerlink" title="payload"></a>payload</h2><p>所以最后该json实例需要满足如下条件：</p><blockquote><ol><li>.href exists</li><li>.origin exists</li><li>.protocol &#x3D;&#x3D;&#x3D; ‘file:’</li><li>.hostname &#x3D;&#x3D;&#x3D; ‘’</li><li>.pathname is <code>/app/flag.txt</code> 这里我们知道了传入之后，其会进行一次url解码</li></ol></blockquote><h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ol><li><a href="https://nodejs.org/api/fs.html#fsreadfilesyncpath-options">File system | Node.js v19.0.0 Documentation (nodejs.org)</a></li><li><a href="https://brycec.me/posts/corctf_2022_challenges#simplewaf">corCTF 2022 Challenges (brycec.me)</a></li><li><a href="https://cloud.tencent.com/developer/article/2123023">corCtf2022一道有意思的node题 - 腾讯云开发者社区-腾讯云 (tencent.com)</a></li></ol>]]></content>
+      
+      
+      <categories>
+          
+          <category> nodejs安全 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> readFileSync </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>原型链污染配合ejs模板引擎RCE分析</title>
       <link href="/2022/11/01/%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93%E9%85%8D%E5%90%88ejs%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8ERCE%E5%88%86%E6%9E%90/"/>
       <url>/2022/11/01/%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93%E9%85%8D%E5%90%88ejs%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8ERCE%E5%88%86%E6%9E%90/</url>

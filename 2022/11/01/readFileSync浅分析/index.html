@@ -1,0 +1,219 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>readFileSync浅分析 | Sk1y's Blog</title><meta name="keywords" content="readFileSync"><meta name="author" content="Sk1y"><meta name="copyright" content="Sk1y"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="前言前言：在刚过去的祥云杯中，web类型题目有一个rustwaf的题目（corCTF 2022 simplewaf 改编而来），其中有个关于readFileSync的trick，这里分析一下 源码分析看下官方文档对readFileSync的解释，注意看，path可以是字符串，Buffer类对象，URL类对象等等  调用链 123456fs.readFileSync	--&gt;fs.openSyn">
+<meta property="og:type" content="article">
+<meta property="og:title" content="readFileSync浅分析">
+<meta property="og:url" content="https://sk1y233.github.io/2022/11/01/readFileSync%E6%B5%85%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="Sk1y&#39;s Blog">
+<meta property="og:description" content="前言前言：在刚过去的祥云杯中，web类型题目有一个rustwaf的题目（corCTF 2022 simplewaf 改编而来），其中有个关于readFileSync的trick，这里分析一下 源码分析看下官方文档对readFileSync的解释，注意看，path可以是字符串，Buffer类对象，URL类对象等等  调用链 123456fs.readFileSync	--&gt;fs.openSyn">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7">
+<meta property="article:published_time" content="2022-11-01T08:09:41.000Z">
+<meta property="article:modified_time" content="2022-11-01T08:11:50.043Z">
+<meta property="article:author" content="Sk1y">
+<meta property="article:tag" content="readFileSync">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://sk1y233.github.io/2022/11/01/readFileSync%E6%B5%85%E5%88%86%E6%9E%90/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'readFileSync浅分析',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-11-01 16:11:50'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.2.0"><link rel="alternate" href="/atom.xml" title="Sk1y's Blog" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/202207122029920.jpg" onerror="onerror=null;src='https://github.com/Sk1y233/blog-img/blob/main/images/202207121312215.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">20</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">27</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友联</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Sk1y's Blog</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友联</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">readFileSync浅分析</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-11-01T08:09:41.000Z" title="发表于 2022-11-01 16:09:41">2022-11-01</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-11-01T08:11:50.043Z" title="更新于 2022-11-01 16:11:50">2022-11-01</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/nodejs%E5%AE%89%E5%85%A8/">nodejs安全</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">666</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>2分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="readFileSync浅分析"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="post-content" id="article-container"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>前言：在刚过去的祥云杯中，web类型题目有一个rustwaf的题目（corCTF 2022 simplewaf 改编而来），其中有个关于readFileSync的trick，这里分析一下</p>
+<h2 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h2><p>看下官方文档对readFileSync的解释，注意看，path可以是字符串，Buffer类对象，URL类对象等等</p>
+<p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221101105307823.png" alt="image-20221101105307823"></p>
+<p>调用链</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">fs.readFileSync</span><br><span class="line">	--&gt;fs.openSync(lib/fs.js)</span><br><span class="line">    	--&gt; getValidatedPath(lib/internal/fs/utils.js) </span><br><span class="line">    		--&gt;toPathIfFileURL(lib/internal/url.js)</span><br><span class="line">    			--&gt;fileURLToPath(/lib/internal/url.js)</span><br><span class="line">    				--&gt;getPathFromURLPosix(lib/internal/url.js)</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://github.com/nodejs/node/blob/v18.x/lib/fs.js#L464">node&#x2F;fs.js at v18.x · nodejs&#x2F;node (github.com)</a></p>
+<p>lib&#x2F;fs.js，查看readFileSync的源码，其调用了fs.openSync，并将path和options作为参数传入</p>
+<p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221101112915789.png" alt="image-20221101112915789"></p>
+<p>跟进fs.openSync（lib&#x2F;fs.js），其调用了getValidatedPath函数，将path作为参数传入</p>
+<p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221101113136386.png" alt="image-20221101113136386"></p>
+<p>跟进getValidatedPath(&#x2F;lib&#x2F;internal&#x2F;fs&#x2F;utils.js)，根据函数名，也就是获取路径的意思</p>
+<p>这里调用了toPathIfFileURL，将path传入作为参数，字面意思（如果是URL实例，就转换为路径）<img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221101114820054.png" alt="image-20221101114820054"></p>
+<p>跟进toPathIfFileURL(lib&#x2F;internal&#x2F;url.js)，如果不是URL实例，就直接返回<code>fileURLOrPath</code>；如果是URL实例，就返回<code>fileURLToPath(fileURLOrPath);</code></p>
+<p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221101114951320.png" alt="image-20221101114951320"></p>
+<p>我们跟进<code>isURLInstance(/lib/internal/url.js)</code>看下是怎么判断是否为URL实例的</p>
+<p>我们发现判断是否为URL实例的依据就是<code>是否含有href和origin属性</code>，所以我们添加这两个属性之后就可以伪造URL实例</p>
+<p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221101145324153.png" alt="image-20221101145324153"></p>
+<p>而判断URL实例成功后，则返回<code>fileURLToPath(fileURLOrPath)</code>，跟进(&#x2F;lib&#x2F;internal&#x2F;url.js)</p>
+<p>发现需要path.protocol为<code>file:</code>，然后根据操作系统，调用对应的函数</p>
+<p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221101151618908.png" alt="image-20221101151618908"></p>
+<p>我们看下getPathFromURLPosix(url)</p>
+<p>hostname属性需要为空，然后对pathname进行url解码</p>
+<p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221101154255347.png" alt="image-20221101154255347"></p>
+<h2 id="调试分析"><a href="#调试分析" class="headerlink" title="调试分析"></a>调试分析</h2><p>为什么一开始没有源码分析呢？</p>
+<p>因为刚开始从readFileSync函数下断点，进不去函数里面，后来发现了一篇文章<a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/2123023">corCtf2022一道有意思的node题 - 腾讯云开发者社区-腾讯云 (tencent.com)</a>，配了下环境，就可以了，就是<code>把skipFiles中node_internals给注释掉</code></p>
+<p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221101155151938.png" alt="image-20221101155151938"></p>
+<p>前面的跳过，主要看最后的</p>
+<p>for循环用于检验传入的URL实例中的属性 <code>pathname</code> 中是否包含 url编码后的 <code>/</code> ，若包含则抛出一个异常</p>
+<p>在1410行，将传入的URL实例中 <code>pathname</code> 中的值进行url解码并返回</p>
+<p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221101155717217.png" alt="image-20221101155717217"></p>
+<p>这也就是最终fs.openSync函数中最终获取的path</p>
+<p><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/image-20221101160131202.png" alt="image-20221101160131202"></p>
+<h2 id="payload"><a href="#payload" class="headerlink" title="payload"></a>payload</h2><p>所以最后该json实例需要满足如下条件：</p>
+<blockquote>
+<ol>
+<li>.href exists</li>
+<li>.origin exists</li>
+<li>.protocol &#x3D;&#x3D;&#x3D; ‘file:’</li>
+<li>.hostname &#x3D;&#x3D;&#x3D; ‘’</li>
+<li>.pathname is <code>/app/flag.txt</code> 这里我们知道了传入之后，其会进行一次url解码</li>
+</ol>
+</blockquote>
+<h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://nodejs.org/api/fs.html#fsreadfilesyncpath-options">File system | Node.js v19.0.0 Documentation (nodejs.org)</a></li>
+<li><a target="_blank" rel="noopener" href="https://brycec.me/posts/corctf_2022_challenges#simplewaf">corCTF 2022 Challenges (brycec.me)</a></li>
+<li><a target="_blank" rel="noopener" href="https://cloud.tencent.com/developer/article/2123023">corCtf2022一道有意思的node题 - 腾讯云开发者社区-腾讯云 (tencent.com)</a></li>
+</ol>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://sk1y233.github.io">Sk1y</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://sk1y233.github.io/2022/11/01/readFileSync%E6%B5%85%E5%88%86%E6%9E%90/">https://sk1y233.github.io/2022/11/01/readFileSync%E6%B5%85%E5%88%86%E6%9E%90/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://sk1y233.github.io" target="_blank">Sk1y's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/readFileSync/">readFileSync</a></div><div class="post_share"><div class="social-share" data-image="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2022/11/01/%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93%E9%85%8D%E5%90%88ejs%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8ERCE%E5%88%86%E6%9E%90/"><img class="next-cover" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" onerror="onerror=null;src='https://github.com/Sk1y233/blog-img/blob/main/images/202207121312821.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">原型链污染配合ejs模板引擎RCE分析</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://sk1y2333.oss-cn-beijing.aliyuncs.com/img/202207122029920.jpg" onerror="this.onerror=null;this.src='https://github.com/Sk1y233/blog-img/blob/main/images/202207121312215.gif'" alt="avatar"/></div><div class="author-info__name">Sk1y</div><div class="author-info__description">每一个不曾起舞的日子都是对生命的辜负</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">20</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">27</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">6</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Sk1y233"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="/atom.xml" target="_blank" title="RSS链接"><i class="fa fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90"><span class="toc-number">2.</span> <span class="toc-text">源码分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B0%83%E8%AF%95%E5%88%86%E6%9E%90"><span class="toc-number">3.</span> <span class="toc-text">调试分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#payload"><span class="toc-number">4.</span> <span class="toc-text">payload</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E9%93%BE%E6%8E%A5"><span class="toc-number">5.</span> <span class="toc-text">参考链接</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/11/01/readFileSync%E6%B5%85%E5%88%86%E6%9E%90/" title="readFileSync浅分析">readFileSync浅分析</a><time datetime="2022-11-01T08:09:41.000Z" title="发表于 2022-11-01 16:09:41">2022-11-01</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/11/01/%E5%8E%9F%E5%9E%8B%E9%93%BE%E6%B1%A1%E6%9F%93%E9%85%8D%E5%90%88ejs%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8ERCE%E5%88%86%E6%9E%90/" title="原型链污染配合ejs模板引擎RCE分析">原型链污染配合ejs模板引擎RCE分析</a><time datetime="2022-11-01T01:27:11.000Z" title="发表于 2022-11-01 09:27:11">2022-11-01</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/10/31/2022%E7%A5%A5%E4%BA%91%E6%9D%AF%E5%88%9D%E8%B5%9B/" title="2022祥云杯初赛">2022祥云杯初赛</a><time datetime="2022-10-31T12:20:38.000Z" title="发表于 2022-10-31 20:20:38">2022-10-31</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/10/26/GYCTF2020-Ez-Express/" title="GYCTF2020 Ez_Express">GYCTF2020 Ez_Express</a><time datetime="2022-10-26T14:50:29.000Z" title="发表于 2022-10-26 22:50:29">2022-10-26</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2022/10/24/Javassist%E5%8A%A8%E6%80%81%E7%BC%96%E7%A8%8B/" title="Javassist动态编程">Javassist动态编程</a><time datetime="2022-10-24T01:58:12.000Z" title="发表于 2022-10-24 09:58:12">2022-10-24</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2022 By Sk1y</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.min.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    const valine = new Valine(Object.assign({
+      el: '#vcomment',
+      appId: 'MECC3mIv4gyVBwvpqsAnBsX8-gzGzoHsz',
+      appKey: 'KuxLFi0F1Upj5MRy1yo9oAwH',
+      avatar: 'monsterid',
+      serverURLs: 'https://mecc3miv.lc-cn-n1-shared.com',
+      emojiMaps: "",
+      path: window.location.pathname,
+      visitor: false
+    }, null))
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !false) {
+  if (false) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
