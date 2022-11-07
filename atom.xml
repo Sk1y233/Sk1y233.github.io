@@ -6,7 +6,7 @@
   <link href="https://sk1y233.github.io/atom.xml" rel="self"/>
   
   <link href="https://sk1y233.github.io/"/>
-  <updated>2022-11-02T13:01:13.157Z</updated>
+  <updated>2022-11-07T08:10:27.910Z</updated>
   <id>https://sk1y233.github.io/</id>
   
   <author>
@@ -15,6 +15,35 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>第五届强网拟态防御国际精英挑战赛</title>
+    <link href="https://sk1y233.github.io/2022/11/07/%E7%AC%AC%E4%BA%94%E5%B1%8A%E5%BC%BA%E7%BD%91%E6%8B%9F%E6%80%81%E9%98%B2%E5%BE%A1%E5%9B%BD%E9%99%85%E7%B2%BE%E8%8B%B1%E6%8C%91%E6%88%98%E8%B5%9B/"/>
+    <id>https://sk1y233.github.io/2022/11/07/%E7%AC%AC%E4%BA%94%E5%B1%8A%E5%BC%BA%E7%BD%91%E6%8B%9F%E6%80%81%E9%98%B2%E5%BE%A1%E5%9B%BD%E9%99%85%E7%B2%BE%E8%8B%B1%E6%8C%91%E6%88%98%E8%B5%9B/</id>
+    <published>2022-11-07T07:27:44.000Z</published>
+    <updated>2022-11-07T08:10:27.910Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;WHOYOUARE&quot;&gt;&lt;a href=&quot;#WHOYOUARE&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="比赛wp" scheme="https://sk1y233.github.io/categories/%E6%AF%94%E8%B5%9Bwp/"/>
+    
+    
+    <category term="Web" scheme="https://sk1y233.github.io/tags/Web/"/>
+    
+    <category term="2022" scheme="https://sk1y233.github.io/tags/2022/"/>
+    
+    <category term="强网拟态" scheme="https://sk1y233.github.io/tags/%E5%BC%BA%E7%BD%91%E6%8B%9F%E6%80%81/"/>
+    
+  </entry>
   
   <entry>
     <title>cc2分析</title>
@@ -539,33 +568,6 @@
     <category term="fastjson" scheme="https://sk1y233.github.io/tags/fastjson/"/>
     
     <category term="网站取证" scheme="https://sk1y233.github.io/tags/%E7%BD%91%E7%AB%99%E5%8F%96%E8%AF%81/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ciscn2022华中赛区web部分wp</title>
-    <link href="https://sk1y233.github.io/2022/07/12/ciscn2022%E5%8D%8E%E4%B8%AD%E8%B5%9B%E5%8C%BAweb%E9%83%A8%E5%88%86wp/"/>
-    <id>https://sk1y233.github.io/2022/07/12/ciscn2022%E5%8D%8E%E4%B8%AD%E8%B5%9B%E5%8C%BAweb%E9%83%A8%E5%88%86wp/</id>
-    <published>2022-07-12T13:37:17.000Z</published>
-    <updated>2022-07-12T15:35:11.229Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;ciscn2022华中分区web部分wp&quot;&gt;&lt;a href=&quot;#ciscn2022华中分区web部分wp&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="比赛wp" scheme="https://sk1y233.github.io/categories/%E6%AF%94%E8%B5%9Bwp/"/>
-    
-    
-    <category term="ciscn2022" scheme="https://sk1y233.github.io/tags/ciscn2022/"/>
-    
-    <category term="Web" scheme="https://sk1y233.github.io/tags/Web/"/>
     
   </entry>
   
