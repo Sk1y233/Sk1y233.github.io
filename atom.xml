@@ -6,7 +6,7 @@
   <link href="https://sk1y233.github.io/atom.xml" rel="self"/>
   
   <link href="https://sk1y233.github.io/"/>
-  <updated>2022-11-07T08:10:27.910Z</updated>
+  <updated>2022-11-18T05:07:58.777Z</updated>
   <id>https://sk1y233.github.io/</id>
   
   <author>
@@ -15,6 +15,37 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>华为杯第一届中国研究生网络安全创新大赛实网对抗赛初赛</title>
+    <link href="https://sk1y233.github.io/2022/11/18/%E5%8D%8E%E4%B8%BA%E6%9D%AF%E7%AC%AC%E4%B8%80%E5%B1%8A%E4%B8%AD%E5%9B%BD%E7%A0%94%E7%A9%B6%E7%94%9F%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%88%9B%E6%96%B0%E5%A4%A7%E8%B5%9B%E5%AE%9E%E7%BD%91%E5%AF%B9%E6%8A%97%E8%B5%9B%E5%88%9D%E8%B5%9B/"/>
+    <id>https://sk1y233.github.io/2022/11/18/%E5%8D%8E%E4%B8%BA%E6%9D%AF%E7%AC%AC%E4%B8%80%E5%B1%8A%E4%B8%AD%E5%9B%BD%E7%A0%94%E7%A9%B6%E7%94%9F%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8%E5%88%9B%E6%96%B0%E5%A4%A7%E8%B5%9B%E5%AE%9E%E7%BD%91%E5%AF%B9%E6%8A%97%E8%B5%9B%E5%88%9D%E8%B5%9B/</id>
+    <published>2022-11-18T05:03:53.000Z</published>
+    <updated>2022-11-18T05:07:58.777Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;“华为杯”第一届中国研究生网络安全创新大赛实网对抗赛初赛&quot;&gt;&lt;a href=&quot;#“华为杯”第一届中国研究生网络安全创新大赛实网对抗赛初赛&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="比赛wp" scheme="https://sk1y233.github.io/categories/%E6%AF%94%E8%B5%9Bwp/"/>
+    
+    
+    <category term="QLExpress" scheme="https://sk1y233.github.io/tags/QLExpress/"/>
+    
+    <category term="JWT" scheme="https://sk1y233.github.io/tags/JWT/"/>
+    
+    <category term="密钥混淆攻击" scheme="https://sk1y233.github.io/tags/%E5%AF%86%E9%92%A5%E6%B7%B7%E6%B7%86%E6%94%BB%E5%87%BB/"/>
+    
+    <category term="nodemon" scheme="https://sk1y233.github.io/tags/nodemon/"/>
+    
+  </entry>
   
   <entry>
     <title>第五届强网拟态防御国际精英挑战赛</title>
@@ -537,37 +568,6 @@
     <category term="ciscn2022" scheme="https://sk1y233.github.io/tags/ciscn2022/"/>
     
     <category term="web" scheme="https://sk1y233.github.io/tags/web/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>蓝帽杯2022_Web_网站取证</title>
-    <link href="https://sk1y233.github.io/2022/07/12/%E8%93%9D%E5%B8%BD%E6%9D%AF2022-Web-%E7%BD%91%E7%AB%99%E5%8F%96%E8%AF%81/"/>
-    <id>https://sk1y233.github.io/2022/07/12/%E8%93%9D%E5%B8%BD%E6%9D%AF2022-Web-%E7%BD%91%E7%AB%99%E5%8F%96%E8%AF%81/</id>
-    <published>2022-07-12T15:09:52.000Z</published>
-    <updated>2022-07-12T15:35:03.220Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;蓝帽杯——Web-amp-网站取证&quot;&gt;&lt;a href=&quot;#蓝帽杯——Web-amp-网站取证&quot; class=&quot;headerlink&quot; title=&quot;蓝帽杯——Web&amp;amp;网站取证&quot;&gt;&lt;/a&gt;蓝帽杯——Web&amp;amp;网站取证&lt;/h1&gt;&lt;h2</summary>
-        
-      
-    
-    
-    
-    <category term="比赛wp" scheme="https://sk1y233.github.io/categories/%E6%AF%94%E8%B5%9Bwp/"/>
-    
-    
-    <category term="蓝帽杯" scheme="https://sk1y233.github.io/tags/%E8%93%9D%E5%B8%BD%E6%9D%AF/"/>
-    
-    <category term="2022" scheme="https://sk1y233.github.io/tags/2022/"/>
-    
-    <category term="fastjson" scheme="https://sk1y233.github.io/tags/fastjson/"/>
-    
-    <category term="网站取证" scheme="https://sk1y233.github.io/tags/%E7%BD%91%E7%AB%99%E5%8F%96%E8%AF%81/"/>
     
   </entry>
   
