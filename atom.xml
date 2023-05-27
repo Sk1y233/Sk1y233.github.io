@@ -6,7 +6,7 @@
   <link href="https://sk1y233.github.io/atom.xml" rel="self"/>
   
   <link href="https://sk1y233.github.io/"/>
-  <updated>2023-03-06T00:37:13.335Z</updated>
+  <updated>2023-05-27T14:48:38.190Z</updated>
   <id>https://sk1y233.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>BUUCTF Reverse 11-32</title>
+    <link href="https://sk1y233.github.io/2023/05/27/BUUCTF-Reverse-11-32/"/>
+    <id>https://sk1y233.github.io/2023/05/27/BUUCTF-Reverse-11-32/</id>
+    <published>2023-05-27T14:42:43.000Z</published>
+    <updated>2023-05-27T14:48:38.190Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;BUUCTF-Reverse-11-32&quot;&gt;&lt;a href=&quot;#BUUCTF-Reverse-11-32&quot; class=&quot;headerlink&quot; title=&quot;BUUCTF Reverse 11-32&quot;&gt;&lt;/a&gt;BUUCTF Reverse</summary>
+        
+      
+    
+    
+    
+    <category term="Reverse" scheme="https://sk1y233.github.io/categories/Reverse/"/>
+    
+    
+    <category term="BUUCTF" scheme="https://sk1y233.github.io/tags/BUUCTF/"/>
+    
+  </entry>
   
   <entry>
     <title>CodeQL学习笔记（一）</title>
@@ -46,7 +71,7 @@
     <link href="https://sk1y233.github.io/2022/11/23/BUUCTF-Reverse-1-10/"/>
     <id>https://sk1y233.github.io/2022/11/23/BUUCTF-Reverse-1-10/</id>
     <published>2022-11-23T12:52:35.000Z</published>
-    <updated>2022-11-25T01:13:46.079Z</updated>
+    <updated>2023-05-27T14:46:12.290Z</updated>
     
     
       
@@ -539,33 +564,6 @@
     <category term="2022" scheme="https://sk1y233.github.io/tags/2022/"/>
     
     <category term="BDSecCTF" scheme="https://sk1y233.github.io/tags/BDSecCTF/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ImaginaryCTF2022-Web</title>
-    <link href="https://sk1y233.github.io/2022/07/19/ImaginaryCTF2022-Web/"/>
-    <id>https://sk1y233.github.io/2022/07/19/ImaginaryCTF2022-Web/</id>
-    <published>2022-07-19T14:47:48.000Z</published>
-    <updated>2022-07-19T14:57:15.440Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;ImaginaryCTF2022&quot;&gt;&lt;a href=&quot;#ImaginaryCTF2022&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="比赛wp" scheme="https://sk1y233.github.io/categories/%E6%AF%94%E8%B5%9Bwp/"/>
-    
-    
-    <category term="2022" scheme="https://sk1y233.github.io/tags/2022/"/>
-    
-    <category term="ImaginaryCTF" scheme="https://sk1y233.github.io/tags/ImaginaryCTF/"/>
     
   </entry>
   
